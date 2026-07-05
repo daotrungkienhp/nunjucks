@@ -1,0 +1,10 @@
+{% from "bricks/team/atoms.njk" import renderTeamMember %}
+
+{% macro renderTeam(options={}) %}
+  {% set items = options.items or [] %}
+  <div class="bem-team__grid">
+    {% for member in items %}
+      {{ renderTeamMember(member) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

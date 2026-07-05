@@ -1,0 +1,13 @@
+{% macro renderTabLink(tab, index) %}
+  {% if tab.disabled %}
+    <a class="bem-tabs__link--disabled">
+      {{ tab.label }}
+    </a>
+  {% else %}
+    <a @click="activeTab = {{ index }}"
+       class="bem-tabs__link"
+       :class="activeTab === {{ index }} ? 'bem-tabs__link--active' : ''">
+      {{ tab.label }}
+    </a>
+  {% endif %}
+{% endmacro %}

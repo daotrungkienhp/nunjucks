@@ -1,0 +1,13 @@
+{
+  "shortcuts": {
+    "bem-team__card": "group text-center",
+    "bem-team__image-wrap": "relative overflow-hidden rounded-2xl mb-4 aspect-square",
+    "bem-team__image": "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+    "bem-team__socials": "absolute inset-0 flex items-end justify-center gap-2 pb-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+    "bem-team__social-link": "w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-secondary transition-colors duration-200",
+    "bem-team__info": "space-y-1",
+    "bem-team__name": "text-base font-display font-semibold text-primary",
+    "bem-team__role": "text-sm text-foreground/50",
+    "bem-team__grid": "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8"
+  }
+}

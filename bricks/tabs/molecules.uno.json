@@ -1,0 +1,9 @@
+{
+  "shortcuts": {
+    "bem-tabs": "w-full mx-auto max-w-4xl py-6 animate-fade-in-up",
+    "bem-tabs__header": "text-sm font-medium text-center text-stone-500 border-b border-stone-200 dark:text-stone-400 dark:border-stone-800",
+    "bem-tabs__list": "flex flex-wrap -mb-px list-none p-0 m-0",
+    "bem-tabs__content": "mt-6",
+    "bem-tabs__panel": "w-full text-stone-600 dark:text-stone-300 leading-relaxed font-sans"
+  }
+}

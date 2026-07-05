@@ -1,0 +1,17 @@
+{% from "bricks/features/atoms.njk" import renderFeatureItem %}
+
+{% macro renderFeatures(options={}) %}
+  {% set cols = options.cols or 3 %}
+  {% set colClass = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-features__grid {{ colClass[cols] or colClass[3] }}">
+    {% for item in options.items or [] %}
+      {{ renderFeatureItem(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

@@ -1,0 +1,13 @@
+{% macro renderSectionLabel(text, icon="") %}
+  <span class="bem-section__label">
+    {% if icon %}<span class="bem-section__label-icon">{{ icon | safe }}</span>{% endif %}
+    {{ text }}
+  </span>
+{% endmacro %}
+
+{% macro renderSectionTitle(title, subtitle="") %}
+  <h2 class="bem-section__title">{{ title }}</h2>
+  {% if subtitle %}
+    <p class="bem-section__subtitle">{{ subtitle }}</p>
+  {% endif %}
+{% endmacro %}

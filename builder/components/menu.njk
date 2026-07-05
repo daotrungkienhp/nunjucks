@@ -1,0 +1,11 @@
+{% set menuItems = items or {} %}
+
+<div class="bem-menu--flat" aria-label="Content Menu">
+  <div class="bem-menu__flat-wrapper">
+    {% for card in menuItems %}
+      <a href="{{ card.url }}" class="bem-menu__flat-link">
+        {{ card.label }}
+      </a>
+    {% endfor %}
+  </div>
+</div>

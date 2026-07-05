@@ -1,0 +1,15 @@
+{
+  "shortcuts": {
+    "bem-logo-img": "block h-8 lg:h-16 w-auto transition-all duration-300 hover:opacity-90 active:scale-98",
+    "bem-logo-text": "font-sans text-[20px] font-semibold tracking-normal text-[#313131] dark:text-stone-100 hover:text-[#025abc] transition duration-300 uppercase",
+    "bem-icon-trigger": "flex items-center justify-center text-[#313131] hover:text-[#025abc] bg-transparent border-none p-0 cursor-pointer transition-colors duration-300 dark:text-stone-300 dark:hover:text-amber-500",
+    
+    "bem-logo": "text-2xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 hover:opacity-90 transition",
+    "bem-input": "block w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-md text-sm bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200",
+    "bem-btn-icon": "relative p-2 text-gray-500 hover:text-indigo-600 hover:bg-gray-100 rounded-full transition dark:text-gray-400 dark:hover:bg-gray-800",
+    "bem-badge": "absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full",
+    "bem-btn-primary": "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm transition",
+    "bem-btn-secondary": "text-gray-700 hover:text-indigo-600 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium transition dark:text-gray-300 dark:hover:bg-gray-800",
+    "bem-avatar": "h-8 w-8 rounded-full object-cover ring-2 ring-transparent hover:ring-indigo-500 transition cursor-pointer"
+  }
+}

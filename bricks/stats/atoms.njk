@@ -1,0 +1,18 @@
+{% macro renderStatItem(stat) %}
+  <div class="bem-stats__item" x-data="{ count: 0, target: {{ stat.value }}, unit: '{{ stat.unit or "" }}' }"
+       x-intersect="
+         let start = 0;
+         let duration = 2000;
+         let step = Math.ceil(target / (duration / 16));
+         let timer = setInterval(() => {
+           start += step;
+           if (start >= target) { start = target; clearInterval(timer); }
+           count = start;
+         }, 16);
+       ">
+    <span class="bem-stats__value"><span x-text="count.toLocaleString()">0</span>{{ stat.unit or "" }}</span>
+    {% if stat.label %}
+      <span class="bem-stats__label">{{ stat.label }}</span>
+    {% endif %}
+  </div>
+{% endmacro %}

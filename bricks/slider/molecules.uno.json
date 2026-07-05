@@ -1,0 +1,8 @@
+{
+  "shortcuts": {
+    "bem-slider": "w-full bg-[#1A2434] overflow-hidden group",
+    "bem-slider__wrapper": "relative w-full",
+    "bem-slider__track": "flex transition-transform duration-700 ease-in-out",
+    "bem-slider__dots": "absolute bottom-6 left-0 right-0 flex justify-center gap-2.5 z-30"
+  }
+}

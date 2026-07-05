@@ -1,0 +1,17 @@
+{
+  "shortcuts": {
+    "bem-blog__card": "bg-white dark:bg-stone-900 rounded-2xl border border-border/30 overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1",
+    "bem-blog__image-wrap": "relative overflow-hidden aspect-[16/9]",
+    "bem-blog__image": "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+    "bem-blog__category": "absolute top-3 left-3 px-3 py-1 text-xs font-semibold rounded-lg bg-secondary/90 text-secondary-foreground backdrop-blur-sm",
+    "bem-blog__body": "p-5 lg:p-6 space-y-3",
+    "bem-blog__meta": "flex items-center gap-3 text-xs text-foreground/50",
+    "bem-blog__date": "",
+    "bem-blog__author": "before:content-['·'] before:mr-3",
+    "bem-blog__title": "text-lg font-display font-semibold leading-snug",
+    "bem-blog__title-link": "text-primary hover:text-secondary transition-colors duration-200",
+    "bem-blog__excerpt": "text-sm text-foreground/60 leading-relaxed line-clamp-3",
+    "bem-blog__read-more": "inline-flex items-center text-sm font-medium text-secondary hover:text-primary transition-colors duration-200",
+    "bem-blog__grid": "grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+  }
+}

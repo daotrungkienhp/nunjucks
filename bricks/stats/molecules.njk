@@ -1,0 +1,10 @@
+{% from "bricks/stats/atoms.njk" import renderStatItem %}
+
+{% macro renderStats(options={}) %}
+  {% set items = options.items or [] %}
+  <div class="bem-stats__grid">
+    {% for item in items %}
+      {{ renderStatItem(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

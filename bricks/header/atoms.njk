@@ -1,0 +1,62 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderLogo(type="image", text="MIỀN TỊNH THỔ", url="https://mientinhtho.com") %}
+  {% if type == "image" %}
+    <a href="{{ url }}" class="bem-logo-link">
+      {{ renderImage(
+        src="https://mientinhtho.com/wp-content/uploads/2025/08/logo.svg",
+        alt=text,
+        title=text,
+        class="bem-logo-img",
+        loading="eager"
+      ) }}
+    </a>
+  {% else %}
+    <a href="{{ url }}" class="bem-logo-text">{{ text }}</a>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderTrigger(iconType, eventName, customClass="") %}
+  <button @click="$dispatch('{{ eventName }}')" type="button" class="bem-icon-trigger {{ customClass }}">
+    {% if iconType == "menu" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+    {% elif iconType == "search" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[16px] h-[16px]">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5zM15.25 15.25L20 20" />
+      </svg>
+    {% elif iconType == "close" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    {% endif %}
+  </button>
+{% endmacro %}
+
+{% macro renderSearch(placeholder="Tìm kiếm...") %}
+<div class="relative w-full max-w-xs">
+  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+    <div class="i-heroicons-magnifying-glass w-5 h-5"></div>
+  </div>
+  <input class="bem-input" placeholder="{{ placeholder }}" type="search">
+</div>
+{% endmacro %}
+
+{% macro renderIconButton(iconClass, badgeCount=0) %}
+<button type="button" class="bem-btn-icon">
+  <div class="{{ iconClass }} w-6 h-6"></div>
+  {% if badgeCount > 0 %}
+    <span class="bem-badge">{{ badgeCount }}</span>
+  {% endif %}
+</button>
+{% endmacro %}
+
+{% macro renderAvatar(imgUrl, name="User") %}
+  {{ renderImage(
+    src=imgUrl,
+    alt=name,
+    title=name,
+    class="bem-avatar"
+  ) }}
+{% endmacro %}

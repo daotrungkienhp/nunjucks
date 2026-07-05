@@ -1,0 +1,42 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+{% from "bricks/hero/atoms.njk" import renderHeroBadge, renderHeroTitle, renderHeroCta, renderHeroOverlay %}
+
+{% macro renderHero(options={}) %}
+  {% set bgImage = options.backgroundImage or "" %}
+  {% set bgColor = options.backgroundColor or "#1a1a2e" %}
+  {% set height = options.height or "min-h-[70vh]" %}
+  {% set align = options.align or "center" %}
+  {% set overlay = options.overlay != false %}
+  {% set bgAlt = options.backgroundAlt or "" %}
+  {% set bgTitle = options.backgroundTitle or "" %}
+
+  <section class="bem-hero {{ height }} relative flex items-center overflow-hidden"
+    {% if not bgImage %}style="background-color: {{ bgColor }};"{% endif %}>
+
+    {% if bgImage %}
+      {# Ảnh nền dạng <img> — SEO friendly, có thể index được #}
+      {{ renderImage(
+        src=bgImage,
+        alt=bgAlt,
+        title=bgTitle,
+        class="bem-hero__bg absolute inset-0 w-full h-full object-cover",
+        loading="eager"
+      ) }}
+      {% if overlay %}
+        {{ renderHeroOverlay() }}
+      {% endif %}
+    {% endif %}
+
+    <div class="bem-hero__container bem-hero__container--{{ align }}">
+      {% if options.badge %}
+        {{ renderHeroBadge(options.badge.text, options.badge.icon) }}
+      {% endif %}
+
+      {{ renderHeroTitle(options.title, options.subtitle) }}
+
+      {% if options.buttons %}
+        {{ renderHeroCta(options.buttons) }}
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}

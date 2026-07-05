@@ -1,0 +1,39 @@
+{% macro renderVideoPlayer(video) %}
+  <div class="bem-video__player" x-data="{ playing: false }">
+    {% if video.type == "youtube" %}
+      <div class="bem-video__embed">
+        {% if video.thumbnail %}
+          <img src="{{ video.thumbnail }}" alt="{{ video.title or 'Video' }}" class="bem-video__thumbnail" loading="lazy" />
+          <button @click="playing = true" class="bem-video__play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 md:w-16 md:h-16">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        {% endif %}
+        <template x-if="playing">
+          <iframe src="{{ video.url | replace('watch?v=', 'embed/') }}?autoplay=1"
+                  class="bem-video__iframe" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </template>
+      </div>
+    {% elif video.type == "vimeo" %}
+      <div class="bem-video__embed">
+        {% if video.thumbnail %}
+          <img src="{{ video.thumbnail }}" alt="{{ video.title or 'Video' }}" class="bem-video__thumbnail" loading="lazy" />
+          <button @click="playing = true" class="bem-video__play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 md:w-16 md:h-16">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        {% endif %}
+        <template x-if="playing">
+          <iframe src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1"
+                  class="bem-video__iframe" allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        </template>
+      </div>
+    {% else %}
+      <video class="bem-video__file" controls preload="metadata" {% if video.poster %}poster="{{ video.poster }}"{% endif %}>
+        <source src="{{ video.url }}" type="{{ video.mime or 'video/mp4' }}">
+      </video>
+    {% endif %}
+  </div>
+{% endmacro %}

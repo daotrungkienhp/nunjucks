@@ -1,0 +1,25 @@
+{% macro renderFaqLabel(subtitle="Hỏi & Đáp") %}
+  {% set subtitleObj = subtitle | parseAttr %}
+  <span class="bem-faq__label {{ subtitleObj.classes }}{% if 'text-center' in subtitleObj.classes %} justify-center{% endif %}" {% if subtitleObj.id %}id="{{ subtitleObj.id }}"{% endif %}>
+    <span class="bem-faq__icon-label"></span> {{ subtitleObj.text }}
+  </span>
+{% endmacro %}
+
+{% macro renderFaqTitle(title="Câu hỏi thường gặp") %}
+  {% set titleObj = title | parseAttr %}
+  <h2 class="bem-faq__title {{ titleObj.classes }}" {% if titleObj.id %}id="{{ titleObj.id }}"{% endif %}>
+    {{ titleObj.text }}
+  </h2>
+{% endmacro %}
+
+{% macro renderFaqItem(question, answer) %}
+  <details class="bem-faq__item">
+    <summary class="bem-faq__summary">
+      <span>{{ question }}</span>
+      <span class="bem-faq__icon"></span>
+    </summary>
+    <div class="bem-faq__answer">
+      {{ answer | markdown | safe }}
+    </div>
+  </details>
+{% endmacro %}

@@ -1,0 +1,104 @@
+{% from "bricks/div/atoms.njk" import renderDivOpen, renderDivClose, renderDivBox %}
+
+{% macro renderSection(content="", customClass="", id="", bgClass="") %}
+  <section {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__section {{ bgClass }} {{ customClass }}">
+    <div class="bem-div__section-inner">
+      {{ content | markdown | safe }}
+    </div>
+  </section>
+{% endmacro %}
+
+{% macro renderGrid(items=[], cols=2, gap="gap-6", customClass="") %}
+  {% set colClass = "md:grid-cols-" ~ cols %}
+  <div class="bem-div bem-div__grid {{ colClass }} {{ gap }} {{ customClass }}">
+    {% for item in items %}
+      <div class="bem-div__grid-item">
+        {% if item.url %}
+          <a href="{{ item.url }}" class="bem-div__grid-link">
+        {% endif %}
+        {% if item.image %}
+          <img src="{{ item.image }}" alt="{{ item.title or '' }}" class="bem-div__grid-image" loading="lazy" />
+        {% endif %}
+        {% if item.title %}
+          <h3 class="bem-div__grid-title">{{ item.title }}</h3>
+        {% endif %}
+        {% if item.content %}
+          <div class="bem-div__grid-content">{{ item.content | markdown | safe }}</div>
+        {% endif %}
+        {% if item.url %}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderCard(content="", title="", image="", url="", customClass="") %}
+  <div class="bem-div bem-div__card {{ customClass }}">
+    {% if image %}
+      <div class="bem-div__card-image-wrap">
+        {% if url %}<a href="{{ url }}">{% endif %}
+          <img src="{{ image }}" alt="{{ title }}" class="bem-div__card-image" loading="lazy" />
+        {% if url %}</a>{% endif %}
+      </div>
+    {% endif %}
+    <div class="bem-div__card-body">
+      {% if title %}
+        <h3 class="bem-div__card-title">
+          {% if url %}<a href="{{ url }}">{% endif %}
+            {{ title }}
+          {% if url %}</a>{% endif %}
+        </h3>
+      {% endif %}
+      <div class="bem-div__card-content">
+        {{ content | markdown | safe }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderFlexRow(items=[], align="items-center", justify="justify-between", wrap="flex-wrap", gap="gap-6", customClass="") %}
+  <div class="bem-div bem-div__flex-row {{ align }} {{ justify }} {{ wrap }} {{ gap }} {{ customClass }}">
+    {% for item in items %}
+      <div class="bem-div__flex-item">
+        {{ item | markdown | safe }}
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderBand(content="", title="", subtitle="", bgClass="bg-glow-radial", customClass="") %}
+  <div class="bem-div bem-div__band {{ bgClass }} {{ customClass }}">
+    <div class="bem-div__band-inner">
+      {% if subtitle %}
+        <span class="bem-div__band-subtitle">{{ subtitle }}</span>
+      {% endif %}
+      {% if title %}
+        <h2 class="bem-div__band-title">{{ title }}</h2>
+      {% endif %}
+      <div class="bem-div__band-content">
+        {{ content | markdown | safe }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderDiv(type="box", content="", items=[], title="", subtitle="", image="", url="", cols=2, bgClass="", customClass="", gap="gap-6", align="items-center", justify="justify-between", wrap="flex-wrap", id="", _site={}, _page={}) %}
+  {% if type == "section" %}
+    {{ renderSection(content=content, customClass=customClass, id=id, bgClass=bgClass) }}
+  {% elif type == "grid" %}
+    {{ renderGrid(items=items, cols=cols, gap=gap, customClass=customClass) }}
+  {% elif type == "card" %}
+    {{ renderCard(content=content, title=title, image=image, url=url, customClass=customClass) }}
+  {% elif type == "flexRow" or type == "flex" %}
+    {{ renderFlexRow(items=items, align=align, justify=justify, wrap=wrap, gap=gap, customClass=customClass) }}
+  {% elif type == "band" %}
+    {{ renderBand(content=content, title=title, subtitle=subtitle, bgClass=bgClass, customClass=customClass) }}
+  {% elif type == "box" %}
+    {{ renderDivBox(content=content, customClass=customClass, id=id) }}
+  {% else %}
+    <div {% if id %}id="{{ id }}"{% endif %} class="bem-div {{ customClass }}">
+      {{ content | markdown | safe }}
+    </div>
+  {% endif %}
+{% endmacro %}

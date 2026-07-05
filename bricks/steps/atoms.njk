@@ -1,0 +1,13 @@
+{% macro renderStepItem(step, index) %}
+  <div class="bem-steps__item">
+    <div class="bem-steps__marker">
+      <span class="bem-steps__number">{{ index }}</span>
+    </div>
+    <div class="bem-steps__content">
+      <h3 class="bem-steps__title">{{ step.title }}</h3>
+      {% if step.description %}
+        <p class="bem-steps__desc">{{ step.description }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}

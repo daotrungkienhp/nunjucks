@@ -1,0 +1,12 @@
+{
+  "shortcuts": {
+    "bem-card": "bg-white dark:bg-stone-900 rounded-2xl border border-border/40 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-secondary/30 hover:-translate-y-1",
+    "bem-card__media": "relative overflow-hidden",
+    "bem-card__body": "p-5 lg:p-6 space-y-3",
+    "bem-card__title": "text-lg font-display font-semibold text-primary leading-snug",
+    "bem-card__title-link": "text-primary hover:text-secondary transition-colors duration-200",
+    "bem-card__desc": "text-sm text-foreground/60 leading-relaxed line-clamp-3",
+    "bem-card__link": "inline-flex items-center gap-2 text-sm font-medium text-secondary hover:text-primary transition-colors duration-200",
+    "bem-card__grid": "grid gap-6 lg:gap-8"
+  }
+}

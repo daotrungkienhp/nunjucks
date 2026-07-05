@@ -1,0 +1,41 @@
+{% from "bricks/pricing/atoms.njk" import renderPricingBadge, renderPricingPrice, renderPricingFeature %}
+
+{% macro renderPricingPlan(plan={}) %}
+  <div class="bem-pricing__plan bem-pricing__plan--{{ plan.variant or 'default' }} relative">
+    {% if plan.badge %}{{ renderPricingBadge(plan.badge) }}{% endif %}
+
+    <h3 class="bem-pricing__plan-name">{{ plan.name }}</h3>
+    <p class="bem-pricing__plan-desc">{{ plan.description or "" }}</p>
+
+    {{ renderPricingPrice(plan.amount, plan.currency or "₫", plan.period) }}
+
+    <ul class="bem-pricing__features-list">
+      {% for feature in plan.features or [] %}
+        {{ renderPricingFeature(feature.text, feature.included != false) }}
+      {% endfor %}
+    </ul>
+
+    {% if plan.button %}
+      <a href="{{ plan.button.url or '#' }}" class="bem-pricing__btn bem-pricing__btn--{{ plan.button.variant or 'primary' }}">
+        {{ plan.button.label }}
+      </a>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro renderPricing(options={}) %}
+  {% set plans = options.plans or [] %}
+  {% set cols = plans.length %}
+  {% set colClass = {
+    1: "max-w-sm mx-auto",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-pricing__grid {{ colClass[cols] or colClass[3] }}">
+    {% for plan in plans %}
+      {{ renderPricingPlan(plan) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

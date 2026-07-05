@@ -1,0 +1,27 @@
+{% from "bricks/shared/atoms.njk" import renderAvatar %}
+
+{% macro renderTeamMember(member) %}
+  <div class="bem-team__card group">
+    <div class="bem-team__image-wrap">
+      {{ renderAvatar(
+        src=member.image,
+        name=member.name,
+        class="bem-team__image"
+      ) }}
+      {% if member.socials %}
+        <div class="bem-team__socials">
+          {% for social in member.socials %}
+            <a href="{{ social.url }}" class="bem-team__social-link" target="_blank" rel="noopener noreferrer"
+               aria-label="{{ social.platform }}">
+              {{ social.icon | safe }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="bem-team__info">
+      <h3 class="bem-team__name">{{ member.name }}</h3>
+      <span class="bem-team__role">{{ member.role }}</span>
+    </div>
+  </div>
+{% endmacro %}

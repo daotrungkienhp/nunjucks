@@ -1,0 +1,9 @@
+{
+  "shortcuts": {
+    "bem-features__icon-wrap": "w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-5 text-secondary",
+    "bem-features__icon-img": "w-7 h-7 object-contain",
+    "bem-features__item": "p-6 lg:p-8 rounded-2xl border border-border/30 bg-white/50 dark:bg-stone-900/50 transition-all duration-300 hover:shadow-md hover:border-secondary/20 hover:-translate-y-0.5",
+    "bem-features__item-title": "text-lg font-display font-semibold text-primary mb-3",
+    "bem-features__item-desc": "text-sm text-foreground/60 leading-relaxed"
+  }
+}

@@ -1,0 +1,36 @@
+{% from "bricks/testimonials/atoms.njk" import renderTestimonialQuote %}
+
+{% macro renderTestimonials(options={}) %}
+  {% set items = options.items or [] %}
+  {% set layout = options.layout or "grid" %}
+
+  {% if layout == "carousel" %}
+    <div x-data="{ current: 0 }" class="bem-testimonial__carousel">
+      <div class="overflow-hidden">
+        <div class="flex transition-transform duration-500"
+             :style="'transform: translateX(-' + (current * 100) + '%)'">
+          {% for item in items %}
+            <div class="w-full flex-shrink-0 px-2">
+              {{ renderTestimonialQuote(item.avatar, item.name, item.role, item.quote) }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if items.length > 1 %}
+        <div class="flex justify-center gap-2 mt-6">
+          {% for item in items %}
+            <button @click="current = {{ loop.index0 }}"
+                    class="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                    :class="current === {{ loop.index0 }} ? 'bg-secondary w-6' : 'bg-border hover:bg-secondary/40'"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="bem-testimonial__grid">
+      {% for item in items %}
+        {{ renderTestimonialQuote(item.avatar, item.name, item.role, item.quote) }}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}

@@ -1,0 +1,13 @@
+{
+  "shortcuts": {
+    "bem-nav-link": "text-[14px] font-sans font-medium text-[#313131] hover:text-[#025abc] transition-colors duration-300 py-0 px-0 dark:text-stone-300 dark:hover:text-amber-500",
+    "bem-sub-link": "block text-[14px] font-sans font-medium text-[#313131] hover:text-[#025abc] dark:text-stone-300 dark:hover:text-amber-500 dark:hover:bg-stone-800/40 transition duration-200 py-[5px] px-0",
+    "bem-dropdown-panel": "absolute left-0 z-50 top-full mt-[6px] min-w-[180px] rounded-[4px] py-[14px] px-[20px] bg-background border border-border/80 shadow-none list-none dark:bg-stone-900 dark:border-stone-800",
+    
+    "bem-nav-link": "text-sm font-medium text-gray-600 hover:text-indigo-600 transition py-2 px-1 border-b-2 border-transparent hover:border-indigo-600 dark:text-gray-300",
+    "bem-nav-active": "text-indigo-600 border-indigo-600 dark:text-indigo-400 dark:border-indigo-400",
+    "bem-dropdown-panel": "absolute z-50 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800 dark:ring-gray-700",
+    "bem-megamenu-panel": "absolute z-50 left-1/2 -translate-x-1/2 mt-3 transform w-screen max-w-7xl px-4 sm:px-6 lg:px-8",
+    "bem-megamenu-box": "rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden bg-white p-8 grid grid-cols-4 gap-8 dark:bg-gray-800 dark:ring-gray-700"
+  }
+}

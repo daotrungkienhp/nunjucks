@@ -1,0 +1,18 @@
+{% from "bricks/video/atoms.njk" import renderVideoPlayer %}
+
+{% macro renderVideo(options={}) %}
+  {% set align = options.align or "center" %}
+  {% set maxWidth = options.maxWidth or "max-w-4xl" %}
+
+  <div class="{{ maxWidth }} mx-auto">
+    {% if options.title %}
+      <h3 class="text-lg font-display font-semibold text-primary mb-4 {{ 'text-' + align if align != 'center' else 'text-center' }}">{{ options.title }}</h3>
+    {% endif %}
+
+    {{ renderVideoPlayer(options.video) }}
+
+    {% if options.caption %}
+      <p class="text-sm text-foreground/50 mt-3 {{ 'text-' + align if align != 'center' else 'text-center' }}">{{ options.caption }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}

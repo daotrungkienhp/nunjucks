@@ -1,0 +1,25 @@
+{
+  "shortcuts": {
+    "bem-div__section": "w-full py-12 lg:py-16",
+    "bem-div__section-inner": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "bem-div__grid": "grid grid-cols-1",
+    "bem-div__grid-item": "flex flex-col",
+    "bem-div__grid-link": "group block no-underline",
+    "bem-div__grid-image": "w-full h-auto rounded-2xl mb-4 object-cover shadow-sm border border-black/5 transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]",
+    "bem-div__grid-title": "text-lg font-display font-semibold text-primary mb-2 group-hover:text-secondary transition-colors",
+    "bem-div__grid-content": "text-sm text-foreground/80 leading-relaxed",
+    "bem-div__card": "rounded-2xl border border-stone-200/60 dark:border-stone-800/60 bg-white/50 dark:bg-stone-900/50 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5",
+    "bem-div__card-image-wrap": "overflow-hidden",
+    "bem-div__card-image": "w-full h-48 object-cover transition-transform duration-500 hover:scale-105",
+    "bem-div__card-body": "p-5",
+    "bem-div__card-title": "text-lg font-display font-semibold text-primary mb-2",
+    "bem-div__card-content": "text-sm text-foreground/80 leading-relaxed",
+    "bem-div__flex-row": "flex",
+    "bem-div__flex-item": "flex-1 min-w-0",
+    "bem-div__band": "w-full",
+    "bem-div__band-inner": "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-center",
+    "bem-div__band-subtitle": "block text-sm font-semibold uppercase tracking-widest text-secondary mb-4",
+    "bem-div__band-title": "text-2xl lg:text-3xl font-display font-bold text-primary mb-6",
+    "bem-div__band-content": "text-base text-foreground/80 leading-relaxed max-w-3xl mx-auto"
+  }
+}

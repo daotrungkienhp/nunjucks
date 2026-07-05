@@ -1,0 +1,19 @@
+{% from "bricks/faqs/atoms.njk" import renderFaqLabel, renderFaqTitle, renderFaqItem %}
+
+{% macro renderFaqList(items) %}
+  <div class="bem-faq__list">
+    {% for item in items %}
+      {{ renderFaqItem(item.question, item.answer) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderFaqs(items, title="Câu hỏi thường gặp", subtitle="Hỏi & Đáp") %}
+  <section class="bem-faq">
+    <div class="bem-faq__card">
+      {{ renderFaqLabel(subtitle) }}
+      {{ renderFaqTitle(title) }}
+      {{ renderFaqList(items) }}
+    </div>
+  </section>
+{% endmacro %}

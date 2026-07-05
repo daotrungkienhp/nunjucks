@@ -1,0 +1,76 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderSlideItem(slide, i, visibleCount) %}
+  <div :style="'width: ' + (100 / visibleCount) + '%'"
+       class="bem-slider__item">
+      
+      <a href="{{ slide.url }}" class="bem-slider__link" title="{{ slide.title }}">
+          <div class="bem-slider__bg {% if slide.type == 'text' %}bg-[#7a7042]{% else %}bg-black{% endif %}">
+              {% if slide.image %}
+                  {{ renderImage(
+                    src=slide.image,
+                    alt=slide.title,
+                    title=slide.title,
+                    class="bem-slider__bg-image",
+                    loading="lazy"
+                  ) }}
+              {% endif %}
+          </div>
+
+          <div class="bem-slider__overlay"></div>
+
+          <div class="bem-slider__content"
+               :class="visibleCount === 3 ? (currentIndex + 1 === {{ i }} ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none') : 'opacity-100'">
+              {% if slide.type == 'text' %}
+                  <div class="flex flex-col items-center">
+                      {% if slide.subtitle %}
+                          <span class="bem-slider__subtitle">{{ slide.subtitle }}</span>
+                      {% endif %}
+                      {% if slide.tagline %}
+                          <span class="bem-slider__tagline">{{ slide.tagline }}</span>
+                      {% endif %}
+                      <h2 class="bem-slider__title">{{ slide.title }}</h2>
+                      <div class="bem-slider__divider"></div>
+                  </div>
+              {% else %}
+                  <div class="mt-auto flex flex-col items-center">
+                      <h2 class="bem-slider__title-image">{{ slide.title }}</h2>
+                      {% if slide.description %}
+                          <p class="bem-slider__desc">{{ slide.description }}</p>
+                      {% endif %}
+                      <div class="bem-slider__more">
+                          <span class="bem-slider__more-text">Xem thêm</span>
+                      </div>
+                  </div>
+              {% endif %}
+          </div>
+
+          <div class="bem-slider__frame"></div>
+      </a>
+  </div>
+{% endmacro %}
+
+{% macro renderSliderNav() %}
+  <!-- Navigation Arrows -->
+  <button @click="prev()" 
+          class="bem-slider__arrow bem-slider__arrow--prev opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Previous slide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <button @click="next()" 
+          class="bem-slider__arrow bem-slider__arrow--next opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Next slide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+{% endmacro %}
+
+{% macro renderSliderDots() %}
+  <!-- Pagination Dots -->
+  <div class="bem-slider__dots">
+      <template x-for="i in originalCount" :key="i">
+          <button @click="currentIndex = 3 + (i - 1)" 
+                  class="bem-slider__dot"
+                  :class="(currentIndex - 3 + originalCount) % originalCount === (i - 1) ? 'bg-[#D4AF37] w-8' : 'bg-white/30 w-4'"></button>
+      </template>
+  </div>
+{% endmacro %}

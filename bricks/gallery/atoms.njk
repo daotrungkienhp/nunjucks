@@ -1,0 +1,30 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderGalleryItem(image, caption="", alt="") %}
+  <div class="bem-gallery__item" x-data="{ open: false }"
+       @click="open = true" role="button" tabindex="0">
+    {{ renderImage(
+      src=image,
+      alt=alt or caption,
+      title=caption or alt,
+      class="bem-gallery__image",
+      loading="lazy"
+    ) }}
+    {% if caption %}
+      <div class="bem-gallery__caption">{{ caption }}</div>
+    {% endif %}
+
+    <!-- Lightbox -->
+    <template x-teleport="body">
+      <div x-show="open" x-cloak
+           class="bem-gallery__lightbox"
+           @click="open = false"
+           @keydown.escape.window="open = false">
+        <button @click="open = false" class="bem-gallery__close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-8 h-8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <img :src="$el.previousElementSibling.src || '{{ image }}'" class="bem-gallery__lightbox-image" @click.stop />
+      </div>
+    </template>
+  </div>
+{% endmacro %}

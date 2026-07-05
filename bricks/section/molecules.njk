@@ -1,0 +1,27 @@
+{% from "bricks/section/atoms.njk" import renderSectionLabel, renderSectionTitle %}
+
+{% macro renderSection(options={}) %}
+  {% set bgClass = options.background or "" %}
+  {% set padding = options.padding or "py-16 md:py-24" %}
+  {% set id = options.id or "" %}
+  {% set align = options.align or "center" %}
+
+  <section class="bem-section {{ bgClass }} {{ padding }}" {% if id %}id="{{ id }}"{% endif %}>
+    <div class="bem-section__container">
+      {% if options.label or options.title or options.subtitle %}
+        <div class="bem-section__header bem-section__header--{{ align }}">
+          {% if options.label %}
+            {{ renderSectionLabel(options.label, options.labelIcon) }}
+          {% endif %}
+          {% if options.title %}
+            {{ renderSectionTitle(options.title, options.subtitle) }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if caller %}
+        {{ caller() | safe }}
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}

@@ -1,0 +1,10 @@
+{
+  "shortcuts": {
+    "bem-hero": "relative w-full flex items-center",
+    "bem-hero__bg": "absolute inset-0 w-full h-full object-cover",
+    "bem-hero__container": "relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20",
+    "bem-hero__container--center": "text-center flex flex-col items-center",
+    "bem-hero__container--left": "text-left flex flex-col items-start",
+    "bem-hero__container--right": "text-right flex flex-col items-end"
+  }
+}

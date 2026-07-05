@@ -1,0 +1,28 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderFeatureIcon(icon) %}
+  {% if icon %}
+    <div class="bem-features__icon-wrap">
+      {% if icon starts with "<" %}
+        {{ icon | safe }}
+      {% else %}
+        {{ renderImage(
+          src=icon,
+          alt="",
+          class="bem-features__icon-img",
+          loading="lazy"
+        ) }}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderFeatureItem(feature) %}
+  <div class="bem-features__item">
+    {{ renderFeatureIcon(feature.icon) }}
+    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
+    {% if feature.description %}
+      <p class="bem-features__item-desc">{{ feature.description }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}

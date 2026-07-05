@@ -1,0 +1,28 @@
+{
+  "shortcuts": {
+    "bem-footer": "w-full bg-[#f5f5f5] text-[#333333] font-sans box-border",
+    "bem-footer-section": "py-[40px] px-0 w-full box-border",
+    "bem-footer-container": "max-w-[1300px] mx-auto px-[15px] flex flex-wrap lg:flex-nowrap justify-between items-start gap-[32px] lg:gap-[120px] box-border",
+    "bem-footer-desc-block": "w-full lg:w-[360px] flex flex-col items-start box-border",
+    "bem-footer-logo": "block py-[5px] box-border decoration-none",
+    "bem-footer-logo-img": "block h-[40px] w-auto object-contain",
+    "bem-footer-text": "block text-[18px] leading-[27px] text-[#333333] text-justify my-[16px] p-0 font-sans box-border",
+    "bem-footer-social-wrap": "flex items-center gap-[10px] m-0 p-0 box-border",
+    "bem-footer-social-link": "block p-0 m-0 decoration-none text-black box-border hover:opacity-80 transition-opacity",
+    "bem-footer-social-svg": "block w-[24px] h-[24px] text-black fill-current box-border",
+    "bem-footer-social-svg-gjw": "block w-[20px] h-[24px] box-border",
+    
+    "bem-footer-grid": "grid grid-cols-2 lg:grid-cols-3 gap-y-[20px] gap-x-[20px] w-full lg:w-[790px] mb-[28px] pb-[28px] box-border",
+    "bem-footer-col": "flex flex-col items-start box-border",
+    "bem-footer-title": "block text-[14px] font-bold leading-[22.4px] text-[#333333] mb-[10px] p-0 font-sans decoration-none box-border",
+    "bem-footer-links-list": "flex flex-col gap-0 p-0 m-0 list-none w-full box-border",
+    "bem-footer-link": "block text-[14px] font-normal leading-[20px] text-[#333333] mb-[5px] p-0 font-sans decoration-none box-border hover:text-[#025abc] transition-colors",
+
+    "bem-footer-bottom": "py-[24px] px-[15px] bg-white w-full border-t border-solid border-[#eeeeee]/60 box-border",
+    "bem-footer-bottom-container": "max-w-[1300px] mx-auto px-[15px] flex flex-wrap justify-between items-start box-border",
+    "bem-footer-copyright": "block text-[16px] leading-[24px] text-[#313131] mb-[10px] lg:mb-0 p-0 font-sans box-border",
+    "bem-footer-bottom-links": "flex flex-wrap gap-x-[15px] gap-y-[5px] justify-end list-none p-0 m-0 w-full lg:w-auto box-border",
+    "bem-footer-bottom-item": "block box-border",
+    "bem-footer-bottom-link": "inline-flex text-[13px] leading-[20.8px] text-[#333333] p-0 decoration-none font-sans box-border hover:text-[#025abc] transition-colors"
+  }
+}

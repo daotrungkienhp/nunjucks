@@ -1,0 +1,45 @@
+{
+  "shortcuts": {
+    /* ==========================================================================
+       BLOCK: bem-header (Hệ thống thanh đầu trang)
+       ========================================================================== */
+    "bem-header": "w-full bg-white dark:bg-stone-900 border-b border-stone-100 dark:border-stone-800 z-50 transition-all duration-300",
+    "bem-header--sticky": "sticky top-0 shadow-xs",
+    
+    /* Elements thuộc bem-header */
+    "bem-header__top": "py-6 border-b border-stone-50 hidden md:flex items-center justify-center",
+    "bem-header__nav-bar": "max-w-7xl mx-auto px-4 h-14 flex items-center justify-between md:justify-center relative",
+    "bem-header__logo-img": "h-12 w-auto max-w-[240px] md:max-w-[312px]",
+    "bem-header__logo-text": "font-serif text-lg tracking-widest font-bold text-stone-800 dark:text-stone-100 md:hidden",
+    "bem-header__icon-trigger": "p-2 text-stone-600 hover:text-amber-800 transition text-xl flex items-center justify-center cursor-pointer",
+    
+    /* Elements Popup điều hướng trượt (Offcanvas) */
+    "bem-header__backdrop": "fixed inset-0 bg-stone-900/30 backdrop-blur-xs z-40",
+    "bem-header__drawer-menu": "fixed inset-y-0 left-0 w-80 bg-white dark:bg-stone-900 shadow-2xl z-50 p-5 transform transition-transform duration-300",
+    "bem-header__drawer-search": "fixed top-0 inset-x-0 bg-white dark:bg-stone-900 shadow-lg z-50 py-6 border-b border-stone-200 dark:border-stone-800 transition-all duration-300",
+
+    /* ==========================================================================
+       BLOCK: bem-menu (Hệ thống Menu đa năng)
+       ========================================================================== */
+    /* Biến thể 1: Menu dạng Lưới lớn (Mega/Grid Menu ở Body) */
+    "bem-menu--grid": "grid grid-cols-1 md:grid-cols-2 gap-6 my-10 w-full",
+    "bem-menu__card": "relative p-6 rounded-2xl border border-stone-200/60 dark:border-stone-800/60 bg-white/50 dark:bg-stone-900/50 hover:bg-stone-50 dark:hover:bg-stone-800/40 hover:border-amber-800/40 dark:hover:border-amber-500/40 transition-all duration-300 shadow-sm",
+    "bem-menu__title": "text-base font-display font-semibold text-stone-800 dark:text-stone-100 flex items-center gap-2 mb-4 border-b border-stone-100 dark:border-stone-850 pb-2.5",
+    "bem-menu__link": "text-base font-display font-semibold text-stone-800 dark:text-stone-100 hover:text-amber-800 dark:hover:text-amber-500 transition-colors duration-200",
+    "bem-menu__list": "space-y-2.5",
+    "bem-menu__item": "flex items-start gap-2.5 text-stone-600 dark:text-stone-300",
+    "bem-menu__bullet": "w-1.5 h-1.5 rounded-full bg-amber-800/60 dark:bg-amber-500/60 mt-2",
+    "bem-menu__child-link": "text-sm font-sans text-stone-500 hover:text-amber-800 dark:text-stone-400 dark:hover:text-amber-400 transition-colors duration-200",
+    
+    /* Biến thể 2: Menu dạng phẳng phẳng (Tags tập hợp ở file menu.njk) */
+    "bem-menu--flat": "w-full my-8",
+    "bem-menu__flat-wrapper": "flex flex-wrap items-center gap-4 py-4 my-6 border-y border-stone-200/50 dark:border-stone-800/50",
+    "bem-menu__flat-link": "px-5 py-2.5 rounded-xl border border-stone-200/80 bg-white/60 text-stone-700 font-sans font-medium text-sm transition-all duration-300 hover:text-amber-800 hover:border-amber-800/60 hover:bg-stone-50 dark:border-stone-850 dark:bg-stone-900/60 dark:text-stone-300 dark:hover:text-amber-500 dark:hover:border-amber-500/60 dark:hover:bg-stone-850/60 hover:scale-102 hover:shadow-sm",
+
+    /* Biến thể 3: Menu ngang trên Header chính (Desktop Navigation) */
+    "bem-menu--horizontal": "hidden md:flex items-center space-x-2",
+    "bem-menu__nav-link": "text-[14px] tracking-wide text-stone-700 hover:text-amber-800 font-medium transition py-4 px-3 block dark:text-stone-300 dark:hover:text-amber-500",
+    "bem-menu__dropdown-panel": "absolute left-0 mt-0 w-60 bg-white border border-stone-100 shadow-xl py-1 z-50 rounded-sm dark:bg-stone-950 dark:border-stone-800",
+    "bem-menu__sub-link": "text-[13px] text-stone-600 hover:text-amber-800 hover:bg-stone-50 py-2.5 px-4 block transition dark:text-stone-400 dark:hover:bg-stone-800"
+  }
+}

@@ -1,0 +1,222 @@
+{% extends "base.njk" %}
+{% set fullWidth = true %}
+
+{# ==========================================================================
+   Layout: category.njk
+   Mô tả: Layout danh mục tổng hợp — áp dụng cho nhiều page khác nhau.
+         Mỗi page khai báo query trong frontmatter, layout tự động lấy
+         dữ liệu từ database và render hero + grid + sections.
+
+   CÁCH DÙNG trong frontmatter file .md:
+
+     1. Dùng pageQuery (tự động lọc + hiển thị):
+        ---
+        layout: layouts/category.njk
+        title: "Chân tướng cuộc bức hại"
+        permalink: /chan-tuong/
+        pageQuery:
+          categorySlug: "chan-tuong-buc-hai"
+        # Nếu muốn hiển thị các section con:
+        sectionQueries:
+          - title: "Bức hại toàn diện"
+            url: "/buc-hai-toan-dien/"
+            query:
+              subcategorySlug: "buc-hai-toan-dien"
+          - title: "Đàn áp xuyên quốc gia"
+            url: "/dan-ap-xuyen-quoc-gia/"
+            query:
+              subcategorySlug: "dan-ap-xuyen-quoc-gia"
+        ---
+
+     2. Dùng from: "pages" để query từ database pages thay vì posts
+        ---
+        layout: layouts/category.njk
+        title: "Góc nhìn"
+        permalink: /goc-nhin/
+        from: "pages"
+        pageQuery:
+          category: "goc-nhin"
+        ---
+
+     3. Cách cũ — truyền thủ công heroPost/gridPosts/sections
+        (vẫn tương thích ngược)
+        ---
+        layout: layouts/category.njk
+        title: "Danh mục thủ công"
+        permalink: /thu-cong/
+        ---
+        (dùng {% set %} trong body .md)
+
+   Biến database global có sẵn khi build:
+     posts, pages, listings, projects, sales
+     Filter: where({key: value}), limit(n), first, last
+   ========================================================================== #}
+
+{# — Xác định nguồn dữ liệu — #}
+{% set _source = from or "posts" %}
+{% set _db = {} %}
+{% if _source == "posts" %}
+  {% set _db = posts %}
+{% elseif _source == "pages" %}
+  {% set _db = pages %}
+{% elseif _source == "listings" %}
+  {% set _db = listings %}
+{% elseif _source == "projects" %}
+  {% set _db = projects %}
+{% elseif _source == "sales" %}
+  {% set _db = sales %}
+{% else %}
+  {% set _db = posts %}
+{% endif %}
+
+{# — Tự động filter nếu có pageQuery — #}
+{% if pageQuery and not heroPost %}
+  {% set _filtered = _db | where(pageQuery) %}
+  {% set heroPost = _filtered | limit(1) | first %}
+  {% set gridPosts = _filtered | limit(6) %}
+{% endif %}
+
+{% if sectionQueries and not sections %}
+  {% set sections = [] %}
+  {% for sq in sectionQueries %}
+    {% set _sectionPosts = _db | where(sq.query) | limit(4) %}
+    {% set _ = sections.push({
+      title: sq.title,
+      url: sq.url,
+      posts: _sectionPosts
+    }) %}
+  {% endfor %}
+{% endif %}
+
+{% block content %}
+{# — Nội dung tĩnh từ file .md — #}
+{% if content %}
+<section class="bem-cat-body">
+  <div class="bem-cat-body__container">
+    {{ content | safe }}
+  </div>
+</section>
+{% endif %}
+
+<!-- Category Hero Section -->
+<section class="bem-cat-hero">
+  <div class="bem-cat-hero__container">
+    {% if heroPost %}
+    <div class="bem-cat-hero__grid">
+      <!-- Content Left -->
+      <div class="bem-cat-hero__content">
+        {% if heroPost.category %}
+        <div class="bem-cat-hero__category-wrap">
+          <a href="{{ heroPost.categoryUrl }}" class="bem-cat-hero__category" aria-label="Doc them ve {{ heroPost.category }}">
+            {{ heroPost.category }}
+          </a>
+        </div>
+        {% endif %}
+        <h3 class="bem-cat-hero__title">
+          <a href="{{ heroPost.url }}">{{ heroPost.title }}</a>
+        </h3>
+        {% if heroPost.description %}
+        <p class="bem-cat-hero__desc">{{ heroPost.description }}</p>
+        {% endif %}
+      </div>
+      <!-- Image Right -->
+      {% if heroPost.image %}
+      <div class="bem-cat-hero__image-wrap">
+        <a href="{{ heroPost.url }}" class="bem-cat-hero__image-link">
+          <img src="{{ heroPost.image }}" alt="{{ heroPost.title }}" class="bem-cat-hero__image" loading="lazy">
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Divider -->
+<section class="bem-cat-divider">
+  <div class="bem-cat-divider__container">
+    <div class="bem-cat-divider__line"></div>
+  </div>
+</section>
+
+<!-- Small Post Grid Section -->
+{% if gridPosts and gridPosts.length > 0 %}
+<section class="bem-cat-grid">
+  <div class="bem-cat-grid__container">
+    <div class="bem-cat-grid__wrap">
+      {% for item in gridPosts %}
+      <div class="bem-cat-grid__card">
+        {% if item.image %}
+        <div class="bem-cat-grid__image-wrap">
+          <a href="{{ item.url }}" class="bem-cat-grid__image-link">
+            <img src="{{ item.image }}" alt="{{ item.title }}" class="bem-cat-grid__image" loading="lazy">
+          </a>
+        </div>
+        {% endif %}
+        <div class="bem-cat-grid__content">
+          {% if item.category %}
+          <div class="bem-cat-grid__category-wrap">
+            <a href="{{ item.categoryUrl }}" class="bem-cat-grid__category" aria-label="Doc them ve {{ item.category }}">
+              {{ item.category }}
+            </a>
+          </div>
+          {% endif %}
+          <h3 class="bem-cat-grid__title line-2">
+            <a href="{{ item.url }}">{{ item.title }}</a>
+          </h3>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Category Sections (repeating sub-categories) -->
+{% if sections and sections.length > 0 %}
+  {% for section in sections %}
+  {% set isLast = loop.last %}
+<section class="bem-cat-section{% if isLast %} bem-cat-section--last{% endif %}">
+  <div class="bem-cat-section__container">
+    <!-- Section Header: Title + Xem them button -->
+    <div class="bem-cat-section__header">
+      <h2 class="bem-cat-section__title">
+        <a href="{{ section.url }}">{{ section.title }}</a>
+      </h2>
+      <a class="bem-cat-section__btn" href="{{ section.url }}">
+        Xem them
+        <svg xmlns="http://www.w3.org/2000/svg" class="bem-cat-section__btn-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.1642 12L12.9571 5.79291L11.5429 7.20712L16.3358 12L11.5429 16.7929L12.9571 18.2071L19.1642 12ZM13.5143 12L7.30722 5.79291L5.89301 7.20712L10.6859 12L5.89301 16.7929L7.30722 18.2071L13.5143 12Z"></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Post Grid -->
+    {% if section.posts and section.posts.length > 0 %}
+    <div class="bem-cat-section__grid">
+      {% for post in section.posts %}
+      <article class="bem-cat-section__card">
+        <div class="bem-cat-section__card-image-wrap">
+          <a class="bem-cat-section__card-image-link" href="{{ post.url }}">
+            {% if post.image %}
+            <img src="{{ post.image }}" alt="{{ post.title }}" class="bem-cat-section__card-image" loading="lazy">
+            {% endif %}
+          </a>
+        </div>
+        <div class="bem-cat-section__card-content">
+          <h3 class="bem-cat-section__card-title line-2">
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </h3>
+          {% if post.excerpt %}
+          <p class="bem-cat-section__card-excerpt line-3">{{ post.excerpt }}</p>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+  {% endfor %}
+{% endif %}
+{% endblock %}

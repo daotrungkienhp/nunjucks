@@ -1,0 +1,17 @@
+{% from "bricks/gallery/atoms.njk" import renderGalleryItem %}
+
+{% macro renderGallery(options={}) %}
+  {% set items = options.items or [] %}
+  {% set cols = options.cols or 4 %}
+  {% set colClass = {
+    2: "grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-3",
+    4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-gallery__grid {{ colClass[cols] or colClass[4] }}">
+    {% for item in items %}
+      {{ renderGalleryItem(item.image, item.caption, item.alt) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

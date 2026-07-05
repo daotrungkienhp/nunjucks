@@ -1,0 +1,28 @@
+{% macro renderHeroBadge(text, icon="") %}
+  <span class="bem-hero__badge">
+    {% if icon %}<span class="bem-hero__badge-icon">{{ icon | safe }}</span>{% endif %}
+    <span class="bem-hero__badge-text">{{ text }}</span>
+  </span>
+{% endmacro %}
+
+{% macro renderHeroTitle(title, subtitle="") %}
+  <h1 class="bem-hero__title">{{ title }}</h1>
+  {% if subtitle %}
+    <p class="bem-hero__subtitle">{{ subtitle }}</p>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderHeroCta(buttons=[]) %}
+  <div class="bem-hero__actions">
+    {% for btn in buttons %}
+      <a href="{{ btn.url or '#' }}" class="bem-hero__btn bem-hero__btn--{{ btn.variant or 'primary' }}"
+         {% if btn.newTab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+        {{ btn.label }}
+      </a>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderHeroOverlay() %}
+  <div class="bem-hero__overlay"></div>
+{% endmacro %}

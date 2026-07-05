@@ -1,0 +1,15 @@
+{
+  "shortcuts": {
+    "bem-pricing__badge": "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-secondary text-secondary-foreground text-xs font-semibold rounded-full whitespace-nowrap",
+    "bem-pricing__price-wrap": "flex items-baseline justify-center gap-0.5 my-6",
+    "bem-pricing__currency": "text-lg font-semibold text-foreground/50 self-start mt-1",
+    "bem-pricing__amount": "text-4xl md:text-5xl font-display font-bold text-primary",
+    "bem-pricing__period": "text-sm text-foreground/50 ml-1",
+    "bem-pricing__feature": "flex items-center gap-2.5 py-2.5 text-sm",
+    "bem-pricing__feature--included": "text-foreground/70",
+    "bem-pricing__feature--excluded": "text-foreground/30 line-through",
+    "bem-pricing__feature-icon": "flex-shrink-0",
+    "bem-pricing__feature--included .bem-pricing__feature-icon": "text-secondary",
+    "bem-pricing__feature--excluded .bem-pricing__feature-icon": "text-foreground/20"
+  }
+}

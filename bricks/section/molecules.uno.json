@@ -1,0 +1,14 @@
+{
+  "shortcuts": {
+    "bem-section": "relative w-full",
+    "bem-section__container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "bem-section__header": "mb-12 lg:mb-16 space-y-2",
+    "bem-section__header--center": "text-center flex flex-col items-center",
+    "bem-section__header--left": "text-left flex flex-col items-start",
+    "bem-section__header--right": "text-right flex flex-col items-end",
+    "bem-section__bg-muted": "bg-muted/40",
+    "bem-section__bg-primary": "bg-primary text-white",
+    "bem-section__bg-secondary": "bg-secondary/5",
+    "bem-section__bg-dark": "bg-foreground text-background"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "shortcuts": {
+    "bem-card__image-wrap": "relative overflow-hidden aspect-[16/10]",
+    "bem-card__image": "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+    "bem-card__badge": "absolute top-3 left-3 px-3 py-1 text-xs font-semibold rounded-lg bg-secondary text-secondary-foreground shadow-sm z-10",
+    "bem-card__meta": "flex flex-wrap gap-3 text-xs text-foreground/50 mt-3",
+    "bem-card__meta-item": "inline-flex items-center gap-1",
+    "bem-card__meta-icon": "w-3.5 h-3.5 inline-block"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "shortcuts": {
+    "ldp-h1": "text-3xl md:text-4xl lg:text-5xl font-display font-extrabold text-[#111827] dark:text-white leading-tight mb-8 md:mb-12 text-center relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-secondary"
+  }
+}

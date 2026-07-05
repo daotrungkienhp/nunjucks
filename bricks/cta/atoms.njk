@@ -1,0 +1,7 @@
+{% macro renderCtaContent(title, variant="primary") %}
+  {% if variant == "muted" %}
+    <h2 class="bem-cta__muted-title">{{ title }}</h2>
+  {% else %}
+    <h2 class="bem-cta__title">{{ title }}</h2>
+  {% endif %}
+{% endmacro %}

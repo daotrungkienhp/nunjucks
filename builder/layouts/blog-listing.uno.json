@@ -1,0 +1,44 @@
+{
+  "shortcuts": {
+    "bem-blog-section": "w-full bg-[#f9f9fb] py-10 lg:py-16 box-border",
+    "bem-blog-container": "max-w-[1300px] mx-auto px-[15px] flex flex-col lg:flex-row gap-8 box-border",
+    "bem-blog-main": "flex-1 w-full lg:max-w-[72%] box-border",
+    "bem-blog-title": "text-[26px] lg:text-[36px] font-display font-bold text-[#111827] mb-4 m-0 leading-tight",
+    "bem-blog-desc": "text-[15px] lg:text-[17px] font-sans leading-relaxed text-[#4b5563] mb-8 m-0 max-w-3xl",
+    "bem-blog-list": "grid grid-cols-1 gap-6",
+    
+    "bem-blog-card": "flex flex-col sm:flex-row bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#d1d5db] box-border",
+    "bem-blog-card__image-wrap": "w-full sm:w-[260px] md:w-[300px] shrink-0 aspect-[16/10] sm:aspect-auto overflow-hidden",
+    "bem-blog-card__image-link": "block w-full h-full decoration-none",
+    "bem-blog-card__image": "w-full h-full object-cover block transition-transform duration-500 hover:scale-105",
+    "bem-blog-card__content": "flex flex-col justify-center p-5 md:p-6 lg:p-7 flex-1",
+    "bem-blog-card__title": "text-[18px] lg:text-[21px] font-display font-bold leading-snug text-[#111827] mb-3 m-0",
+    "bem-blog-card__title a": "text-inherit decoration-none hover:text-[#025abc] transition-colors duration-200",
+    "bem-blog-card__excerpt": "text-[14px] lg:text-[15px] font-sans leading-relaxed text-[#4b5563] m-0 line-clamp-3",
+    
+    "bem-blog-loadmore": "flex justify-center mt-12",
+    "bem-blog-loadmore__btn": "inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[#025abc] text-[#025abc] font-sans font-semibold text-sm transition-all duration-300 hover:bg-[#025abc] hover:text-white hover:shadow-md",
+    "bem-blog-loadmore__icon": "w-4 h-4 fill-current",
+    "bem-blog-loadmore__loader": "flex items-center justify-center h-10",
+    "bem-blog-loadmore__loader-dot": "w-2.5 h-2.5 bg-[#025abc] rounded-full animate-bounce",
+    
+    "bem-blog-sidebar": "w-full lg:w-[28%] shrink-0 flex flex-col gap-8 box-border",
+    "bem-blog-sidebar__section": "bg-white border border-[#e5e7eb] p-6 rounded-xl box-border",
+    "bem-blog-sidebar__title": "text-[16px] lg:text-[18px] font-display font-bold text-[#111827] pb-3 mb-5 border-b-2 border-[#025abc] m-0 uppercase tracking-wide",
+    "bem-blog-sidebar__list": "list-none p-0 m-0 flex flex-col gap-4",
+    "bem-blog-sidebar__item": "p-0 m-0",
+    "bem-blog-sidebar__link": "flex items-center gap-3.5 decoration-none",
+    "bem-blog-sidebar__item-image-wrap": "w-16 h-16 shrink-0 overflow-hidden rounded-lg border border-[#e5e7eb]",
+    "bem-blog-sidebar__item-image": "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105",
+    "bem-blog-sidebar__item-title": "text-[14px] font-sans font-semibold text-[#1F2937] leading-snug m-0 group-hover:text-[#025abc] transition-colors duration-200 line-clamp-2",
+    
+    "bem-blog-sidebar__nav": "w-full",
+    "bem-blog-sidebar__nav-list": "list-none p-0 m-0 flex flex-col gap-2.5",
+    "bem-blog-sidebar__nav-item": "p-0 m-0",
+    "bem-blog-sidebar__nav-link": "block text-[14px] font-sans font-medium text-[#4b5563] hover:text-[#025abc] transition-colors duration-200 decoration-none py-1 border-b border-[#f3f4f6]",
+    
+    "bem-blog-sidebar__banner": "w-full overflow-hidden rounded-xl border border-[#e5e7eb] hover:shadow-md transition-all duration-300",
+    "bem-blog-sidebar__banner-link": "block w-full decoration-none",
+    "bem-blog-sidebar__banner-image": "w-full h-auto block"
+  }
+}

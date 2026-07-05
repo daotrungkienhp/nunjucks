@@ -1,0 +1,224 @@
+{% from "bricks/header/atoms.njk" import renderLogo, renderTrigger %}
+{% from "bricks/header/molecules.njk" import renderNavItem %}
+
+{% set mientinhthoMenu = [
+  { label: "Trang chủ", url: "https://mientinhtho.com/" },
+  { 
+    label: "Pháp Luân Công", 
+    url: "#",
+    children: [
+      { label: "Giới thiệu về Pháp Luân Công", url: "https://mientinhtho.com/gioi-thieu-ve-phap-luan-cong/" },
+      { label: "Pháp Luân Công tại Trung Quốc", url: "https://mientinhtho.com/phap-luan-cong-tai-trung-quoc/" },
+      { label: "Pháp Luân Công ở Việt Nam", url: "https://mientinhtho.com/phap-luan-cong-o-viet-nam/" },
+      { label: "Pháp Luân Công trên thế giới", url: "https://mientinhtho.com/phap-luan-cong-tren-the-gioi/" }
+    ]
+  },
+  { 
+    label: "Chân tướng cuộc bức hại", 
+    url: "https://mientinhtho.com/chan-tuong-cuoc-buc-hai-phap-luan-cong/",
+    children: [
+      { label: "Cuộc bức hại tại Trung Quốc", url: "https://mientinhtho.com/cuoc-buc-hai-toan-dien-phap-luan-cong-tai-trung-quoc/" },
+      { label: "Đàn áp xuyên quốc gia", url: "https://mientinhtho.com/dan-ap-xuyen-quoc-gia/" },
+      { label: "Tội ác diệt chủng", url: "https://mientinhtho.com/toi-ac-diet-chung-cua-dang-cong-san-trung-quoc/" },
+      { label: "Nguyen nhân của cuộc bức hại", url: "https://mientinhtho.com/nguyen-nhan-cua-cuoc-buc-hai-phap-luan-cong-tai-trung-quoc/" },
+      { label: "Hành động của học viên", url: "https://mientinhtho.com/hanh-dong-cua-hoc-vien-phap-luan-cong/" },
+      { label: "Nhìn nhận của thế giới", url: "https://mientinhtho.com/nhin-nhan-cua-the-gioi-ve-cuoc-buc-hai-phap-luan-cong/" },
+      { label: "Những hiểu lầm cơ bản và giải đáp", url: "https://mientinhtho.com/nhung-hieu-lam-co-ban-ve-phap-luan-cong-va-giai-dap/" }
+    ]
+  },
+  { 
+    label: "Vẻ đẹp Chân-Thiện-Nhẫn", 
+    url: "https://mientinhtho.com/ve-dep-chan-thien-nhan/",
+    children: [
+      { label: "Tâm tính đề cao", url: "https://mientinhtho.com/tam-tinh-de-cao/" },
+      { label: "Khỏi bệnh thần kỳ", url: "https://mientinhtho.com/khoi-benh-than-ky/" },
+      { label: "Nhân sinh cảm ngộ", url: "https://mientinhtho.com/nhan-sinh-cam-ngo/" }
+    ]
+  },
+  { label: "Truyền kỳ về Đại sư Lý", url: "https://mientinhtho.com/truyen-ky-ve-dai-su-ly/" },
+  { 
+    label: "Nghệ Thuật", 
+    url: "https://mientinhtho.com/nghe-thuat/",
+    children: [
+      { label: "Âm nhạc", url: "https://mientinhtho.com/am-nhac/" },
+      { label: "Vũ đạo", url: "https://mientinhtho.com/vu-dao/" },
+      { label: "Thơ", url: "https://mientinhtho.com/tho/" },
+      { label: "Hội hoạ", url: "https://mientinhtho.com/hoi-hoa/" },
+      { label: "Phim", url: "https://mientinhtho.com/phim/" }
+    ]
+  },
+  { 
+    label: "Tin tức – Sự kiện", 
+    url: "https://mientinhtho.com/tin-tuc-su-kien/",
+    children: [
+      { label: "Thế giới ủng hộ", url: "https://mientinhtho.com/the-gioi-ung-ho/" },
+      { label: "Các hoạt động kỷ niệm", url: "https://mientinhtho.com/cac-hoat-dong-ky-niem/" },
+      { label: "Các buổi diễu hành", url: "https://mientinhtho.com/cac-buoi-dieu-hanh/" },
+      { label: "Phân tích bình luận", url: "https://mientinhtho.com/phan-tich-binh-luan/" }
+    ]
+  },
+  { 
+    label: "Văn hoá", 
+    url: "https://mientinhtho.com/van-hoa/",
+    children: [
+      { label: "Văn hoá thần truyền", url: "https://mientinhtho.com/van-hoa-than-truyen/" },
+      { label: "Văn hoá tu luyện", url: "https://mientinhtho.com/van-hoa-tu-luyen/" },
+      { label: "Trí tuệ người xưa", url: "https://mientinhtho.com/tri-tue-nguoi-xua/" }
+    ]
+  },
+  { label: "Liên hệ", url: "https://www.facebook.com/messages/t/254248797777322" }
+] %}
+
+<div x-data="{ 
+         mobileOpen: false, 
+         searchOpen: false, 
+         lastScrollY: 0, 
+         isScrolled: false, 
+         showNav: true,
+         init() {
+           window.addEventListener('scroll', () => {
+             const currentScrollY = window.scrollY;
+             if (currentScrollY > 120) {
+               this.isScrolled = true;
+               if (currentScrollY < this.lastScrollY) {
+                 this.showNav = true;
+               } else {
+                 this.showNav = false;
+               }
+             } else {
+               this.isScrolled = false;
+               this.showNav = true;
+             }
+             this.lastScrollY = currentScrollY;
+           }, { passive: true });
+         }
+       }"
+     @toggle-menu.window="mobileOpen = !mobileOpen"
+     @toggle-search.window="searchOpen = !searchOpen"
+     @keydown.escape.window="mobileOpen = false; searchOpen = false">
+
+  <header class="bem-header"
+          :class="!showNav && isScrolled ? '-translate-y-full' : 'translate-y-0'">
+    
+    <div class="bem-header-top hidden lg:flex" :class="isScrolled ? 'lg:!hidden' : ''">
+      {{ renderLogo("image") }}
+    </div>
+
+    <nav class="bem-nav-bar">
+      <div class="max-w-[1300px] w-full mx-auto px-0 lg:px-[15px] h-full flex items-center justify-between relative lg:justify-center">
+        {# Mobile Layout: Menu (Left) - Logo (Center) - Search (Right) #}
+        <div class="lg:hidden flex items-center">
+          {{ renderTrigger("menu", "toggle-menu", "w-[45px] h-[45px] flex items-center justify-center") }}
+        </div>
+
+        <div class="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
+          {{ renderLogo("image") }}
+        </div>
+
+        {# Desktop Layout: Navigation Menu + Search Button (Centered) #}
+        <div class="hidden lg:flex items-center gap-[15px]">
+          {% for item in mientinhthoMenu %}
+            {{ renderNavItem(item) }}
+          {% endfor %}
+          <div class="ml-[15px] flex items-center">
+            {{ renderTrigger("search", "toggle-search", "w-[16px] h-[16px]") }}
+          </div>
+        </div>
+
+        <div class="lg:hidden flex items-center">
+          {{ renderTrigger("search", "toggle-search", "w-[16px] h-[16px] mr-[15px]") }}
+        </div>
+      </div>
+    </nav>
+
+  </header>
+
+  {# Backdrop: Handles closing the drawer/popup when clicking outside #}
+  <div x-show="mobileOpen || searchOpen" x-transition class="bem-backdrop" style="display: none;" @click="mobileOpen = false; searchOpen = false"></div>
+
+  {# Mobile offcanvas drawer #}
+  <div x-show="mobileOpen" 
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="-translate-x-full"
+       x-transition:enter-end="translate-x-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="translate-x-0"
+       x-transition:leave-end="-translate-x-full"
+       class="bem-offcanvas-menu" style="display: none;">
+    
+    {# Close trigger positioned absolutely in top right #}
+    <button @click="mobileOpen = false" type="button" class="absolute top-[30px] right-[25px] w-[18px] h-[18px] flex items-center justify-center text-[#B9BFCA] hover:text-[#025abc] border-0 outline-none transition-colors duration-200 cursor-pointer bg-transparent">
+      {# Lucide X icon - inline SVG #}
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+      </svg>
+    </button>
+
+    {# Drawer Header with Logo centered #}
+    <div class="bem-drawer-header">
+      {{ renderLogo("image") }}
+    </div>
+
+    {# Accordion vertical list of menu links #}
+    <ul class="flex flex-col list-none overflow-y-auto max-h-[calc(100vh-100px)]">
+      {% for item in mientinhthoMenu %}
+        <li x-data="{ expanded: false }" class="relative block w-full">
+          {% if item.children %}
+            <div class="flex items-center justify-between w-full relative">
+              <a href="{{ item.url }}" class="bem-drawer-link flex-1 pr-[42px]">{{ item.label }}</a>
+              <button @click="expanded = !expanded" type="button" class="absolute right-0 top-[12px] w-[32px] h-[32px] flex items-center justify-center text-[#313131] rounded-full border-0 outline-none transition-colors duration-200 cursor-pointer" :class="expanded ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" class="w-[12px] h-[12px]" style="transition: transform 0.1s cubic-bezier(0,0,0.2,1);" :style="expanded ? 'transform: rotateZ(180deg)' : ''">
+                  <path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5" stroke="currentColor" />
+                </svg>
+              </button>
+            </div>
+            <ul x-show="expanded"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-1"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-1"
+                class="pl-[20px] bg-white flex flex-col list-none" style="display:none;">
+              {% for sub in item.children %}
+                <li>
+                  <a href="{{ sub.url }}" class="bem-drawer-sub-link">{{ sub.label }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <a href="{{ item.url }}" class="bem-drawer-link">{{ item.label }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# Search offcanvas drawer #}
+  <div x-show="searchOpen" 
+       x-transition:enter="transition-all duration-200 ease-[cubic-bezier(0.25,0,0.25,1)]"
+       x-transition:enter-start="-translate-y-full opacity-0"
+       x-transition:enter-end="translate-y-0 opacity-1"
+       x-transition:leave="transition-all duration-200 ease-[cubic-bezier(0.25,0,0.25,1)]"
+       x-transition:leave-start="translate-y-0 opacity-1"
+       x-transition:leave-end="-translate-y-full opacity-0"
+       class="bem-offcanvas-search" style="display: none;">
+    <div class="max-w-[800px] mx-auto px-[15px] flex items-center w-full box-border">
+      <form action="/tim-kiem/" method="GET" class="w-[770px] max-w-full relative flex items-center">
+        <input name="title" class="bem-search-input" placeholder="Tìm bài thơ, tác giả, bài viết..." />
+        <button type="submit" class="bem-search-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.608 10.608Z" />
+          </svg>
+        </button>
+      </form>
+    </div>
+    {# Close button positioned absolutely to the search container top-right #}
+    <button @click="searchOpen = false" type="button" class="absolute top-[10px] right-[5px] w-[30px] h-[20px] flex items-center justify-center text-[#313131] hover:text-[#025abc] transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+</div>

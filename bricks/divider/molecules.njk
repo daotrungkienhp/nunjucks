@@ -1,0 +1,26 @@
+{% macro renderDivider(options={}) %}
+  {% set variant = options.variant or "solid" %}
+  {% set size = options.size or "md" %}
+  {% set color = options.color or "" %}
+
+  {% set sizeClass = {
+    "sm": "my-8",
+    "md": "my-12 md:my-16",
+    "lg": "my-20 md:my-24",
+    "xl": "my-28 md:my-36"
+  } %}
+
+  <div class="bem-divider bem-divider--{{ variant }} {{ sizeClass[size] or sizeClass['md'] }} {{ color }}">
+    {% if variant == "dots" %}
+      <div class="bem-divider__dots">
+        <span></span><span></span><span></span>
+      </div>
+    {% elif variant == "line-label" and options.label %}
+      <div class="bem-divider__line-label">
+        <span class="bem-divider__line"></span>
+        <span class="bem-divider__label">{{ options.label }}</span>
+        <span class="bem-divider__line"></span>
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}

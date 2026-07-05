@@ -1,0 +1,23 @@
+{
+  "shortcuts": {
+    "bem-header": "sticky top-0 w-full z-50 bg-background/95 backdrop-blur-md transition-all duration-300",
+    "bem-header-top": "max-w-7xl mx-auto flex justify-center pt-2.5 pb-7.5 box-border",
+    "bem-nav-bar": "w-full py-0 px-0 lg:py-[10px] lg:px-[15px] h-[47px] lg:h-[42px] flex items-center justify-between lg:justify-center border-t border-b border-x-0 border-solid border-border/60 bg-background/95 relative dark:bg-stone-900 dark:border-stone-800 box-border",
+    "bem-backdrop": "fixed inset-0 z-40 bg-stone-900/40 backdrop-blur-sm",
+    "bem-offcanvas-menu": "fixed inset-y-0 left-0 z-50 w-[385px] max-w-[85vw] bg-background p-[24px] shadow-none dark:bg-stone-900 border-r border-stone-100 dark:border-stone-800 flex flex-col",
+    "bem-offcanvas-search": "fixed top-0 inset-x-0 z-50 bg-background h-[142px] py-[50px] shadow-none dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 box-border",
+    "bem-search-input": "w-full bg-background text-sm outline-none pl-[12px] pr-[30px] h-[42px] border border-border/80 rounded-none font-sans focus:border-stone-500 text-[#313131] dark:bg-stone-900 dark:border-stone-700 dark:text-stone-100 box-border",
+    "bem-search-btn": "absolute right-0 top-0 h-[42px] w-[30px] flex items-center justify-center text-stone-600 bg-transparent border-none outline-none hover:text-[#025abc] dark:text-stone-400 dark:hover:text-amber-500",
+
+    "bem-logo-link": "block py-[5px]",
+    "bem-drawer-header": "w-full flex justify-center mb-[32px] pt-1",
+    "bem-drawer-logo": "text-[20px] font-sans font-semibold tracking-normal text-[#313131] hover:text-[#025abc] transition-colors uppercase",
+    "bem-drawer-link": "flex items-center text-[24px] leading-[36px] font-sans font-normal text-[#313131] hover:text-[#025abc] transition-colors duration-200 px-[10px] h-[56px] w-full text-left border-b border-[#eeeeee]/60 box-border",
+    "bem-drawer-sub-link": "flex items-center text-[24px] leading-[36px] font-sans font-normal text-[#313131] hover:text-[#025abc] transition-colors duration-200 py-[10px] px-[10px] w-full text-left box-border",
+
+    "bem-wrapper": "relative bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800",
+    "bem-container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4",
+    "bem-sticky": "sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-950/90",
+    "bem-mobile-panel": "lg:hidden border-t border-gray-200 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg absolute w-full left-0 z-40 dark:bg-gray-900 dark:border-gray-800"
+  }
+}

@@ -1,0 +1,84 @@
+{% from "bricks/slider/atoms.njk" import renderSlideItem, renderSliderNav, renderSliderDots %}
+
+{% macro renderSlider(items=[]) %}
+  {% set slides = items %}
+  {% set totalSlides = slides | length %}
+  
+  {% if totalSlides > 0 %}
+    <section class="bem-slider group" 
+        x-data='{ 
+            currentIndex: 3,
+            visibleCount: 1,
+            autoPlayInterval: null,
+            originalCount: {{ totalSlides }},
+            isTransitioning: false,
+            
+            init() {
+                this.updateVisibleCount();
+                window.addEventListener("resize", () => this.updateVisibleCount());
+                this.startAutoPlay();
+            },
+            updateVisibleCount() {
+                if (window.innerWidth >= 1024) {
+                    this.visibleCount = 3;
+                } else if (window.innerWidth >= 768) {
+                    this.visibleCount = 2;
+                } else {
+                    this.visibleCount = 1;
+                }
+            },
+            next() {
+                if (this.isTransitioning) return;
+                this.currentIndex++;
+                this.checkJump();
+            },
+            prev() {
+                if (this.isTransitioning) return;
+                this.currentIndex--;
+                this.checkJump();
+            },
+            checkJump() {
+                setTimeout(() => {
+                    if (this.currentIndex >= 3 + this.originalCount) {
+                        this.isTransitioning = true;
+                        this.currentIndex = 3;
+                        setTimeout(() => { this.isTransitioning = false }, 50);
+                    } else if (this.currentIndex < 3) {
+                        this.isTransitioning = true;
+                        this.currentIndex = 3 + this.originalCount - 1;
+                        setTimeout(() => { this.isTransitioning = false }, 50);
+                    }
+                }, 700);
+            },
+            startAutoPlay() {
+                this.autoPlayInterval = setInterval(() => {
+                    this.next();
+                }, 5000);
+            },
+            stopAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+            }
+        }'
+        @mouseenter="stopAutoPlay()"
+        @mouseleave="startAutoPlay()">
+        
+        <div class="bem-slider__wrapper">
+            <!-- Slider Container -->
+            <div class="bem-slider__track"
+                 :class="isTransitioning ? 'transition-none' : 'transition-transform duration-700 ease-in-out'"
+                 :style="'transform: translateX(-' + (currentIndex * (100 / visibleCount)) + '%)'">
+                
+                {# Render clones and original slides. Loop from 0 to totalSlides + 5 #}
+                {% for i in range(0, totalSlides + 6) %}
+                    {% set slideIndex = (i - 3 + totalSlides * 2) % totalSlides %}
+                    {% set slide = slides[slideIndex] %}
+                    {{ renderSlideItem(slide, i, visibleCount) }}
+                {% endfor %}
+            </div>
+
+            {{ renderSliderNav() }}
+            {{ renderSliderDots() }}
+        </div>
+    </section>
+  {% endif %}
+{% endmacro %}

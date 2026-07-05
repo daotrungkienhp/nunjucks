@@ -1,0 +1,40 @@
+{% from "bricks/cta/atoms.njk" import renderCtaContent %}
+
+{% macro renderCta(options={}) %}
+  {% set variant = options.variant or "primary" %}
+  {% set align = options.align or "center" %}
+
+  <section class="bem-cta bem-cta--{{ variant }} {{ 'text-' + align }}">
+    {% if variant == "primary" or variant == "secondary" %}
+      <div class="bem-cta__decor"></div>
+      <div class="bem-cta__decor-2"></div>
+    {% endif %}
+
+    <div class="relative z-10 {{ 'flex flex-col items-' + align if align != 'center' else 'text-center flex flex-col items-center' }}">
+      {% if options.label %}
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-xs font-semibold uppercase tracking-widest mb-4">{{ options.label }}</span>
+      {% endif %}
+
+      {{ renderCtaContent(options.title, variant) }}
+
+      {% if options.subtitle %}
+        {% if variant == "muted" %}
+          <p class="bem-cta__muted-subtitle">{{ options.subtitle }}</p>
+        {% else %}
+          <p class="bem-cta__subtitle">{{ options.subtitle }}</p>
+        {% endif %}
+      {% endif %}
+
+      {% if options.buttons %}
+        <div class="bem-cta__actions {{ 'justify-' + align if align != 'center' else 'justify-center' }}">
+          {% for btn in options.buttons %}
+            <a href="{{ btn.url or '#' }}" class="bem-cta__btn--{{ btn.variant or 'primary' }}"
+               {% if btn.newTab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+              {{ btn.label }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}

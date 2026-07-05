@@ -1,0 +1,63 @@
+{% from "bricks/header/atoms.njk" import renderIconButton, renderAvatar %}
+
+{% macro renderNavItem(item) %}
+  {% if item.children %}
+    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative group">
+      <div class="flex items-center">
+        <a href="{{ item.url }}" class="bem-nav-link">{{ item.label }}</a>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" class="w-[10px] h-[10px] ml-[8px] text-[#313131]/60 group-hover:text-[#025abc] transition-transform duration-200" :class="open ? 'rotate-180' : ''"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5" stroke="currentColor"></path></svg>
+      </div>
+      
+      <ul x-show="open" x-transition class="bem-dropdown-panel py-1" style="display: none;">
+        {# Caret triangle #}
+        <div class="absolute top-[-6px] left-[25px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-[#f3f3f3] pointer-events-none"></div>
+        {# Caret border #}
+        <div class="absolute top-[-7px] left-[24px] w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-b-[7px] border-b-[#e5e7eb] -z-10 pointer-events-none"></div>
+        {% for sub in item.children %}
+          <li><a href="{{ sub.url }}" class="bem-sub-link">{{ sub.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <a href="{{ item.url }}" class="bem-nav-link">{{ item.label }}</a>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderDropdown(label, items) %}
+<div x-data="{ open: false }" @click.away="open = false" class="relative inline-block text-left">
+  <button @click="open = !open" type="button" class="bem-nav-link flex items-center gap-1">
+    <span>{{ label }}</span>
+    <div class="i-heroicons-chevron-down w-4 h-4 transition" :class="open ? 'rotate-180' : ''"></div>
+  </button>
+
+  <div x-show="open" x-transition class="bem-dropdown-panel" style="display: none;">
+    {% for item in items %}
+      <a href="{{ item.url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">{{ item.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro renderMegaMenu(label, columns) %}
+<div x-data="{ open: false }" @click.away="open = false" class="relative">
+  <button @click="open = !open" class="bem-nav-link flex items-center gap-1">
+    <span>{{ label }}</span>
+    <div class="i-heroicons-chevron-down w-4 h-4" :class="open ? 'rotate-180' : ''"></div>
+  </button>
+
+  <div x-show="open" x-transition class="bem-megamenu-panel" style="display: none;">
+    <div class="bem-megamenu-box">
+      {% for col in columns %}
+        <div>
+          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">{{ col.title }}</h3>
+          <ul class="mt-4 space-y-2">
+            {% for link in col.links %}
+              <li><a href="{{ link.url }}" class="text-sm text-gray-900 hover:text-indigo-600 dark:text-gray-100">{{ link.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endmacro %}

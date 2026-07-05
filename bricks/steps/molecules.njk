@@ -1,0 +1,11 @@
+{% from "bricks/steps/atoms.njk" import renderStepItem %}
+
+{% macro renderSteps(options={}) %}
+  {% set items = options.items or [] %}
+
+  <div class="bem-steps__list {{ 'mx-auto' if options.align == 'center' else '' }}">
+    {% for step in items %}
+      {{ renderStepItem(step, loop.index) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

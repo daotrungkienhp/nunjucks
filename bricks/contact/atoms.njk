@@ -1,0 +1,20 @@
+{% macro renderContactMethod(icon, title, content, href="") %}
+  <div class="bem-contact__method">
+    <span class="bem-contact__method-icon">{{ icon | safe }}</span>
+    <div>
+      <h4 class="bem-contact__method-title">{{ title }}</h4>
+      {% if href %}
+        <a href="{{ href }}" class="bem-contact__method-content">{{ content }}</a>
+      {% else %}
+        <span class="bem-contact__method-content">{{ content }}</span>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderSocialLink(icon, url, label="") %}
+  <a href="{{ url }}" class="bem-contact__social-link" target="_blank" rel="noopener noreferrer"
+     {% if label %}aria-label="{{ label }}"{% endif %}>
+    {{ icon | safe }}
+  </a>
+{% endmacro %}

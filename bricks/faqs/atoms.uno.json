@@ -1,0 +1,11 @@
+{
+  "shortcuts": {
+    "bem-faq__label": "font-bold mb-3.5 flex items-center gap-2 uppercase tracking-widest text-sm",
+    "bem-faq__icon-label": "w-4 h-4",
+    "bem-faq__title": "text-2xl lg:text-3xl font-serif text-primary font-bold leading-tight mb-8",
+    "bem-faq__item": "border border-[hsl(var(--border)/0.4)] rounded-2xl bg-white/45 overflow-hidden transition-all duration-300 [&_summary::-webkit-details-marker]:hidden",
+    "bem-faq__summary": "w-full text-left py-4 px-6 font-serif text-lg font-bold text-primary flex justify-between items-center gap-4 cursor-pointer focus:outline-none list-none select-none",
+    "bem-faq__icon": "w-5 h-5 text-[hsl(var(--secondary))] transition-transform duration-300",
+    "bem-faq__answer": "px-6 pb-5 text-[hsl(var(--secondary))] text-base leading-relaxed border-t border-[hsl(var(--border)/0.2)] pt-4"
+  }
+}

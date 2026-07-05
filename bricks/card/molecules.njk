@@ -1,0 +1,48 @@
+{% from "bricks/card/atoms.njk" import renderCardImage, renderCardBadge, renderCardMeta %}
+
+{% macro renderCard(item={}) %}
+  <article class="bem-card group">
+    {% if item.image %}
+      <div class="bem-card__media">
+        {% if item.badge %}{{ renderCardBadge(item.badge) }}{% endif %}
+        {% if item.url %}<a href="{{ item.url }}">{% endif %}
+        {{ renderCardImage(item.image, item.title) }}
+        {% if item.url %}</a>{% endif %}
+      </div>
+    {% endif %}
+
+    <div class="bem-card__body">
+      {% if item.meta %}{{ renderCardMeta(item.meta) }}{% endif %}
+
+      {% if item.title %}
+        <h3 class="bem-card__title">
+          {% if item.url %}<a href="{{ item.url }}" class="bem-card__title-link">{% endif %}
+            {{ item.title }}
+          {% if item.url %}</a>{% endif %}
+        </h3>
+      {% endif %}
+
+      {% if item.description %}
+        <p class="bem-card__desc">{{ item.description }}</p>
+      {% endif %}
+
+      {% if item.url and item.linkText %}
+        <a href="{{ item.url }}" class="bem-card__link">{{ item.linkText }}</a>
+      {% endif %}
+    </div>
+  </article>
+{% endmacro %}
+
+{% macro renderCardGrid(items=[], cols=3, card={}) %}
+  {% set colClass = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+  <div class="bem-card__grid {{ colClass[cols] or colClass[3] }}">
+    {% for item in items %}
+      {{ renderCard(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}

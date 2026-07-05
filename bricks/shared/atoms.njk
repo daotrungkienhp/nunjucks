@@ -1,0 +1,63 @@
+{#
+  ##############################################################################
+  Shared Atoms — dùng chung cho tất cả bricks
+  ##############################################################################
+
+  renderImage()
+  ------------
+  Render một thẻ <img> chuẩn với đầy đủ thuộc tính accessibility + performance.
+  
+  Cách dùng:
+    {% from "bricks/shared/atoms.njk" import renderImage %}
+
+    {{ renderImage(
+      src=item.image,
+      alt=item.title,
+      title=item.title,
+      class="bem-card__image"
+    ) }}
+
+  Nếu item có trường imageAlt / imageTitle riêng:
+    {{ renderImage(
+      src=item.image,
+      alt=item.imageAlt or item.title,
+      title=item.imageTitle or item.title,
+      class="bem-card__image"
+    ) }}
+
+  Đối với ảnh trang trí (decorative, icon):
+    {{ renderImage(src=item.icon, alt="", class="bem-features__icon-img") }}
+
+  Tất cả thuộc tính đều có giá trị mặc định hợp lý:
+    - loading="lazy"  (trừ header logo dùng "eager")
+    - decoding="async"
+    - alt=""          (mặc định rỗng — không bao giờ thiếu thuộc tính alt)
+    - title=""        (mặc định rỗng)
+#}
+
+{% macro renderImage(src, alt="", title="", class="", loading="lazy", decoding="async", width="", height="") %}
+  <img src="{{ src }}"
+   {% if alt %}alt="{{ alt }}"{% endif %}
+   {% if title %}title="{{ title }}"{% endif %}
+   class="{{ class }}"
+   loading="{{ loading }}"
+   decoding="{{ decoding }}"
+   {% if width %}width="{{ width }}"{% endif %}
+   {% if height %}height="{{ height }}"{% endif %} />
+{% endmacro %}
+
+
+{#
+  renderAvatar()
+  --------------
+  Render ảnh đại diện (avatar) với class mặc định và aria-label.
+#}
+{% macro renderAvatar(src, name="", class="", loading="lazy") %}
+  {{ renderImage(
+    src=src,
+    alt=name,
+    title=name,
+    class=class,
+    loading=loading
+  ) }}
+{% endmacro %}

@@ -1,0 +1,43 @@
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderBlogCard(post) %}
+  <article class="bem-blog__card group">
+    {% if post.image %}
+      <div class="bem-blog__image-wrap">
+        <a href="{{ post.url }}">
+          {{ renderImage(
+            src=post.image,
+            alt=post.title,
+            title=post.title,
+            class="bem-blog__image",
+            loading="lazy"
+          ) }}
+        </a>
+        {% if post.category %}
+          <span class="bem-blog__category">{{ post.category }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="bem-blog__body">
+      <div class="bem-blog__meta">
+        {% if post.date %}
+          <time class="bem-blog__date">{{ post.date }}</time>
+        {% endif %}
+        {% if post.author %}
+          <span class="bem-blog__author">{{ post.author }}</span>
+        {% endif %}
+      </div>
+
+      <h3 class="bem-blog__title">
+        <a href="{{ post.url }}" class="bem-blog__title-link">{{ post.title }}</a>
+      </h3>
+
+      {% if post.excerpt %}
+        <p class="bem-blog__excerpt">{{ post.excerpt }}</p>
+      {% endif %}
+
+      <a href="{{ post.url }}" class="bem-blog__read-more">Đọc thêm</a>
+    </div>
+  </article>
+{% endmacro %}

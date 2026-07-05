@@ -1,0 +1,20 @@
+{% from "bricks/contact/atoms.njk" import renderContactMethod, renderSocialLink %}
+
+{% macro renderContactInfo(options={}) %}
+  <div>
+    <div class="bem-contact__grid">
+      {% for method in options.methods or [] %}
+        {{ renderContactMethod(method.icon, method.title, method.content, method.href) }}
+      {% endfor %}
+    </div>
+
+    {% if options.socials %}
+      <div class="flex items-center gap-3 mt-8 pt-8 border-t border-border/30">
+        <span class="text-sm text-foreground/50 mr-2">Theo dõi chúng tôi:</span>
+        {% for social in options.socials %}
+          {{ renderSocialLink(social.icon, social.url, social.label) }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}

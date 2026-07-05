@@ -1,0 +1,13 @@
+{
+  "shortcuts": {
+    "bem-testimonial__card": "bg-white dark:bg-stone-900 rounded-2xl border border-border/30 p-6 lg:p-8 transition-all duration-300 hover:shadow-md",
+    "bem-testimonial__stars": "flex gap-1 text-amber-400 mb-4",
+    "bem-testimonial__star": "w-4 h-4",
+    "bem-testimonial__quote": "text-sm md:text-base text-foreground/70 leading-relaxed italic mb-6",
+    "bem-testimonial__author": "flex items-center gap-3",
+    "bem-testimonial__avatar": "w-10 h-10 rounded-full object-cover",
+    "bem-testimonial__name": "block text-sm font-semibold text-primary not-italic",
+    "bem-testimonial__role": "block text-xs text-foreground/50 not-italic mt-0.5",
+    "bem-testimonial__grid": "grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+  }
+}

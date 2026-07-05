@@ -1,0 +1,150 @@
+{% extends "base.njk" %}
+{% set fullWidth = true %}
+
+{#
+  Layout: blog-listing.njk
+  Mô tả: Layout danh mục bài viết dạng blog — 2 cột (danh sách bài viết + sidebar).
+         Dùng cho các trang tổng hợp bài viết như Tâm tính đề cao, Khỏi bệnh thần kỳ, Nhân sinh cảm ngộ.
+
+  CÁCH DÙNG trong frontmatter file .md:
+
+    ---
+    layout: layouts/blog-listing.njk
+    title: "Tâm tính đề cao"
+    permalink: /tam-tinh-de-cao/
+    description: "..."
+    featureImage: 333-1.webp
+    articles:
+      - title: "Bài viết 1"
+        url: /bai-viet-1/
+        thumbnail: image.webp
+        excerpt: "Mô tả ngắn..."
+    sidebar:
+      latestPosts:
+        - title: "Bài viết mới 1"
+          url: /bai-viet-moi-1/
+          thumbnail: image.webp
+      categoryTitle: "Danh mục"
+      categoryMenu:
+        - title: "Mục 1"
+          url: /muc-1/
+      bannerImage: banner.webp
+      bannerUrl: /file.pdf
+    ---
+#}
+
+{% block content %}
+<section class="bem-blog-section">
+  <div class="bem-blog-container">
+    <!-- Left Column: Article List -->
+    <div class="bem-blog-main">
+      <h1 class="bem-blog-title">{{ title }}</h1>
+
+      {% if description %}
+      <p class="bem-blog-desc">{{ description }}</p>
+      {% endif %}
+
+      {% if articles and articles.length > 0 %}
+      <div class="bem-blog-list">
+        {% for article in articles %}
+        <article class="bem-blog-card">
+          {% if article.thumbnail %}
+          <div class="bem-blog-card__image-wrap">
+            <a href="{{ article.url }}" class="bem-blog-card__image-link">
+              <img
+                src="{{ article.thumbnail }}"
+                alt="{{ article.title }}"
+                class="bem-blog-card__image"
+                loading="lazy"
+              >
+            </a>
+          </div>
+          {% endif %}
+          <div class="bem-blog-card__content">
+            <h3 class="bem-blog-card__title line-2">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h3>
+            {% if article.excerpt %}
+            <p class="bem-blog-card__excerpt line-4">{{ article.excerpt }}</p>
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+
+      <!-- Load More Button -->
+      <div class="bem-blog-loadmore">
+        <button class="bem-blog-loadmore__btn" type="button">
+          <span>Xem thêm</span>
+          <svg class="bem-blog-loadmore__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 15L8 11H16L12 15Z"/>
+          </svg>
+        </button>
+        <div class="bem-blog-loadmore__loader" style="display:none;">
+          <div class="bem-blog-loadmore__loader-dot"></div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Right Column: Sidebar -->
+    <aside class="bem-blog-sidebar">
+      <!-- Latest Posts -->
+      {% if sidebar.latestPosts and sidebar.latestPosts.length > 0 %}
+      <div class="bem-blog-sidebar__section">
+        <h3 class="bem-blog-sidebar__title">Bài viết mới nhất</h3>
+        <ul class="bem-blog-sidebar__list">
+          {% for post in sidebar.latestPosts %}
+          <li class="bem-blog-sidebar__item">
+            <a href="{{ post.url }}" class="bem-blog-sidebar__link group">
+              {% if post.thumbnail %}
+              <div class="bem-blog-sidebar__item-image-wrap">
+                <img
+                  src="{{ post.thumbnail }}"
+                  alt="{{ post.title }}"
+                  class="bem-blog-sidebar__item-image"
+                  loading="lazy"
+                >
+              </div>
+              {% endif %}
+              <h4 class="bem-blog-sidebar__item-title line-2">{{ post.title }}</h4>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Category Menu -->
+      {% if sidebar.categoryMenu and sidebar.categoryMenu.length > 0 %}
+      <div class="bem-blog-sidebar__section">
+        <h3 class="bem-blog-sidebar__title">{{ sidebar.categoryTitle or "Danh mục" }}</h3>
+        <nav class="bem-blog-sidebar__nav">
+          <ul class="bem-blog-sidebar__nav-list">
+            {% for item in sidebar.categoryMenu %}
+            <li class="bem-blog-sidebar__nav-item">
+              <a href="{{ item.url }}" class="bem-blog-sidebar__nav-link">{{ item.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+      {% endif %}
+
+      <!-- Banner Image -->
+      {% if sidebar.bannerImage %}
+      <div class="bem-blog-sidebar__banner">
+        <a href="{{ sidebar.bannerUrl or '#' }}" class="bem-blog-sidebar__banner-link">
+          <img
+            src="{{ sidebar.bannerImage }}"
+            alt="Banner"
+            class="bem-blog-sidebar__banner-image"
+            loading="lazy"
+          >
+        </a>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

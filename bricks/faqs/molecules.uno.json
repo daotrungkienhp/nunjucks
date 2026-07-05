@@ -1,0 +1,7 @@
+{
+  "shortcuts": {
+    "bem-faq": "max-w-[1240px] mx-auto px-4 py-10 w-full animate-fade-in-up",
+    "bem-faq__card": "bg-neutral/30 border border-border/40 rounded-3xl p-6 lg:p-10 shadow-xl transition-all duration-300 hover:border-secondary/30",
+    "bem-faq__list": "space-y-4"
+  }
+}
