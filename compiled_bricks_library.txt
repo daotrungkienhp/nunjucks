@@ -1,0 +1,1573 @@
+
+{# ========================================== #}
+{# SOURCE: bricks/tabs/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderTabLink(tab, index) %}
+  {% if tab.disabled %}
+    <a class="bem-tabs__link--disabled">
+      {{ tab.label }}
+    </a>
+  {% else %}
+    <a @click="activeTab = {{ index }}"
+       class="bem-tabs__link"
+       :class="activeTab === {{ index }} ? 'bem-tabs__link--active' : ''">
+      {{ tab.label }}
+    </a>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/tabs/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/tabs/atoms.njk" import renderTabLink %}
+
+{% macro renderTabs(items=[]) %}
+  {% set totalTabs = items | length %}
+  {% if totalTabs > 0 %}
+    <div class="bem-tabs" x-data="{ activeTab: 0 }">
+      <!-- Tabs Navigation Header -->
+      <div class="bem-tabs__header">
+        <ul class="bem-tabs__list">
+          {% for item in items %}
+            <li class="bem-tabs__item">
+              {{ renderTabLink(item, loop.index0) }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Tabs Content Panels -->
+      <div class="bem-tabs__content">
+        {% for item in items %}
+          {% if not item.disabled %}
+            <div x-show="activeTab === {{ loop.index0 }}" 
+                 class="bem-tabs__panel"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 style="display: none;">
+              {{ item.content | markdown | safe }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/video/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderVideoPlayer(video) %}
+  <div class="bem-video__player" x-data="{ playing: false }">
+    {% if video.type == "youtube" %}
+      <div class="bem-video__embed">
+        {% if video.thumbnail %}
+          <img src="{{ video.thumbnail }}" alt="{{ video.title or 'Video' }}" class="bem-video__thumbnail" loading="lazy" />
+          <button @click="playing = true" class="bem-video__play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 md:w-16 md:h-16">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        {% endif %}
+        <template x-if="playing">
+          <iframe src="{{ video.url | replace('watch?v=', 'embed/') }}?autoplay=1"
+                  class="bem-video__iframe" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </template>
+      </div>
+    {% elif video.type == "vimeo" %}
+      <div class="bem-video__embed">
+        {% if video.thumbnail %}
+          <img src="{{ video.thumbnail }}" alt="{{ video.title or 'Video' }}" class="bem-video__thumbnail" loading="lazy" />
+          <button @click="playing = true" class="bem-video__play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 md:w-16 md:h-16">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        {% endif %}
+        <template x-if="playing">
+          <iframe src="https://player.vimeo.com/video/{{ video.id }}?autoplay=1"
+                  class="bem-video__iframe" allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        </template>
+      </div>
+    {% else %}
+      <video class="bem-video__file" controls preload="metadata" {% if video.poster %}poster="{{ video.poster }}"{% endif %}>
+        <source src="{{ video.url }}" type="{{ video.mime or 'video/mp4' }}">
+      </video>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/video/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/video/atoms.njk" import renderVideoPlayer %}
+
+{% macro renderVideo(options={}) %}
+  {% set align = options.align or "center" %}
+  {% set maxWidth = options.maxWidth or "max-w-4xl" %}
+
+  <div class="{{ maxWidth }} mx-auto">
+    {% if options.title %}
+      <h3 class="text-lg font-display font-semibold text-primary mb-4 {{ 'text-' + align if align != 'center' else 'text-center' }}">{{ options.title }}</h3>
+    {% endif %}
+
+    {{ renderVideoPlayer(options.video) }}
+
+    {% if options.caption %}
+      <p class="text-sm text-foreground/50 mt-3 {{ 'text-' + align if align != 'center' else 'text-center' }}">{{ options.caption }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/contact/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderContactMethod(icon, title, content, href="") %}
+  <div class="bem-contact__method">
+    <span class="bem-contact__method-icon">{{ icon | safe }}</span>
+    <div>
+      <h4 class="bem-contact__method-title">{{ title }}</h4>
+      {% if href %}
+        <a href="{{ href }}" class="bem-contact__method-content">{{ content }}</a>
+      {% else %}
+        <span class="bem-contact__method-content">{{ content }}</span>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderSocialLink(icon, url, label="") %}
+  <a href="{{ url }}" class="bem-contact__social-link" target="_blank" rel="noopener noreferrer"
+     {% if label %}aria-label="{{ label }}"{% endif %}>
+    {{ icon | safe }}
+  </a>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/contact/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/contact/atoms.njk" import renderContactMethod, renderSocialLink %}
+
+{% macro renderContactInfo(options={}) %}
+  <div>
+    <div class="bem-contact__grid">
+      {% for method in options.methods or [] %}
+        {{ renderContactMethod(method.icon, method.title, method.content, method.href) }}
+      {% endfor %}
+    </div>
+
+    {% if options.socials %}
+      <div class="flex items-center gap-3 mt-8 pt-8 border-t border-border/30">
+        <span class="text-sm text-foreground/50 mr-2">Theo dõi chúng tôi:</span>
+        {% for social in options.socials %}
+          {{ renderSocialLink(social.icon, social.url, social.label) }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/section/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderSectionLabel(text, icon="") %}
+  <span class="bem-section__label">
+    {% if icon %}<span class="bem-section__label-icon">{{ icon | safe }}</span>{% endif %}
+    {{ text }}
+  </span>
+{% endmacro %}
+
+{% macro renderSectionTitle(title, subtitle="") %}
+  <h2 class="bem-section__title">{{ title }}</h2>
+  {% if subtitle %}
+    <p class="bem-section__subtitle">{{ subtitle }}</p>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/section/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/section/atoms.njk" import renderSectionLabel, renderSectionTitle %}
+
+{% macro renderSection(options={}) %}
+  {% set bgClass = options.background or "" %}
+  {% set padding = options.padding or "py-16 md:py-24" %}
+  {% set id = options.id or "" %}
+  {% set align = options.align or "center" %}
+
+  <section class="bem-section {{ bgClass }} {{ padding }}" {% if id %}id="{{ id }}"{% endif %}>
+    <div class="bem-section__container">
+      {% if options.label or options.title or options.subtitle %}
+        <div class="bem-section__header bem-section__header--{{ align }}">
+          {% if options.label %}
+            {{ renderSectionLabel(options.label, options.labelIcon) }}
+          {% endif %}
+          {% if options.title %}
+            {{ renderSectionTitle(options.title, options.subtitle) }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if caller %}
+        {{ caller() | safe }}
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/card/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderCardImage(image, alt="") %}
+  <div class="bem-card__image-wrap">
+    {{ renderImage(
+      src=image,
+      alt=alt,
+      title=alt,
+      class="bem-card__image",
+      loading="lazy"
+    ) }}
+  </div>
+{% endmacro %}
+
+{% macro renderCardBadge(text) %}
+  <span class="bem-card__badge">{{ text }}</span>
+{% endmacro %}
+
+{% macro renderCardMeta(items=[]) %}
+  {% if items %}
+    <div class="bem-card__meta">
+      {% for item in items %}
+        <span class="bem-card__meta-item">
+          {% if item.icon %}<span class="bem-card__meta-icon">{{ item.icon | safe }}</span>{% endif %}
+          {{ item.text }}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/card/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/card/atoms.njk" import renderCardImage, renderCardBadge, renderCardMeta %}
+
+{% macro renderCard(item={}) %}
+  <article class="bem-card group">
+    {% if item.image %}
+      <div class="bem-card__media">
+        {% if item.badge %}{{ renderCardBadge(item.badge) }}{% endif %}
+        {% if item.url %}<a href="{{ item.url }}">{% endif %}
+        {{ renderCardImage(item.image, item.title) }}
+        {% if item.url %}</a>{% endif %}
+      </div>
+    {% endif %}
+
+    <div class="bem-card__body">
+      {% if item.meta %}{{ renderCardMeta(item.meta) }}{% endif %}
+
+      {% if item.title %}
+        <h3 class="bem-card__title">
+          {% if item.url %}<a href="{{ item.url }}" class="bem-card__title-link">{% endif %}
+            {{ item.title }}
+          {% if item.url %}</a>{% endif %}
+        </h3>
+      {% endif %}
+
+      {% if item.description %}
+        <p class="bem-card__desc">{{ item.description }}</p>
+      {% endif %}
+
+      {% if item.url and item.linkText %}
+        <a href="{{ item.url }}" class="bem-card__link">{{ item.linkText }}</a>
+      {% endif %}
+    </div>
+  </article>
+{% endmacro %}
+
+{% macro renderCardGrid(items=[], cols=3, card={}) %}
+  {% set colClass = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+  <div class="bem-card__grid {{ colClass[cols] or colClass[3] }}">
+    {% for item in items %}
+      {{ renderCard(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/div/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderDivOpen(customClass="", id="") %}
+  <div {% if id %}id="{{ id }}"{% endif %} class="bem-div {{ customClass }}">
+{% endmacro %}
+
+{% macro renderDivClose() %}
+  </div>
+{% endmacro %}
+
+{% macro renderDivBox(content="", customClass="", id="") %}
+  <div {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__box {{ customClass }}">
+    {{ content | markdown | safe }}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/div/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/div/atoms.njk" import renderDivOpen, renderDivClose, renderDivBox %}
+
+{% macro renderSection(content="", customClass="", id="", bgClass="") %}
+  <section {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__section {{ bgClass }} {{ customClass }}">
+    <div class="bem-div__section-inner">
+      {{ content | markdown | safe }}
+    </div>
+  </section>
+{% endmacro %}
+
+{% macro renderGrid(items=[], cols=2, gap="gap-6", customClass="") %}
+  {% set colClass = "md:grid-cols-" ~ cols %}
+  <div class="bem-div bem-div__grid {{ colClass }} {{ gap }} {{ customClass }}">
+    {% for item in items %}
+      <div class="bem-div__grid-item">
+        {% if item.url %}
+          <a href="{{ item.url }}" class="bem-div__grid-link">
+        {% endif %}
+        {% if item.image %}
+          <img src="{{ item.image }}" alt="{{ item.title or '' }}" class="bem-div__grid-image" loading="lazy" />
+        {% endif %}
+        {% if item.title %}
+          <h3 class="bem-div__grid-title">{{ item.title }}</h3>
+        {% endif %}
+        {% if item.content %}
+          <div class="bem-div__grid-content">{{ item.content | markdown | safe }}</div>
+        {% endif %}
+        {% if item.url %}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderCard(content="", title="", image="", url="", customClass="") %}
+  <div class="bem-div bem-div__card {{ customClass }}">
+    {% if image %}
+      <div class="bem-div__card-image-wrap">
+        {% if url %}<a href="{{ url }}">{% endif %}
+          <img src="{{ image }}" alt="{{ title }}" class="bem-div__card-image" loading="lazy" />
+        {% if url %}</a>{% endif %}
+      </div>
+    {% endif %}
+    <div class="bem-div__card-body">
+      {% if title %}
+        <h3 class="bem-div__card-title">
+          {% if url %}<a href="{{ url }}">{% endif %}
+            {{ title }}
+          {% if url %}</a>{% endif %}
+        </h3>
+      {% endif %}
+      <div class="bem-div__card-content">
+        {{ content | markdown | safe }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderFlexRow(items=[], align="items-center", justify="justify-between", wrap="flex-wrap", gap="gap-6", customClass="") %}
+  <div class="bem-div bem-div__flex-row {{ align }} {{ justify }} {{ wrap }} {{ gap }} {{ customClass }}">
+    {% for item in items %}
+      <div class="bem-div__flex-item">
+        {{ item | markdown | safe }}
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderBand(content="", title="", subtitle="", bgClass="bg-glow-radial", customClass="") %}
+  <div class="bem-div bem-div__band {{ bgClass }} {{ customClass }}">
+    <div class="bem-div__band-inner">
+      {% if subtitle %}
+        <span class="bem-div__band-subtitle">{{ subtitle }}</span>
+      {% endif %}
+      {% if title %}
+        <h2 class="bem-div__band-title">{{ title }}</h2>
+      {% endif %}
+      <div class="bem-div__band-content">
+        {{ content | markdown | safe }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro renderDiv(type="box", content="", items=[], title="", subtitle="", image="", url="", cols=2, bgClass="", customClass="", gap="gap-6", align="items-center", justify="justify-between", wrap="flex-wrap", id="", _site={}, _page={}) %}
+  {% if type == "section" %}
+    {{ renderSection(content=content, customClass=customClass, id=id, bgClass=bgClass) }}
+  {% elif type == "grid" %}
+    {{ renderGrid(items=items, cols=cols, gap=gap, customClass=customClass) }}
+  {% elif type == "card" %}
+    {{ renderCard(content=content, title=title, image=image, url=url, customClass=customClass) }}
+  {% elif type == "flexRow" or type == "flex" %}
+    {{ renderFlexRow(items=items, align=align, justify=justify, wrap=wrap, gap=gap, customClass=customClass) }}
+  {% elif type == "band" %}
+    {{ renderBand(content=content, title=title, subtitle=subtitle, bgClass=bgClass, customClass=customClass) }}
+  {% elif type == "box" %}
+    {{ renderDivBox(content=content, customClass=customClass, id=id) }}
+  {% else %}
+    <div {% if id %}id="{{ id }}"{% endif %} class="bem-div {{ customClass }}">
+      {{ content | markdown | safe }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/testimonials/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderAvatar %}
+
+{% macro renderTestimonialQuote(avatar, name, role, quote) %}
+  <div class="bem-testimonial__card">
+    <div class="bem-testimonial__stars">
+      {% for i in range(0, 5) %}
+        <svg class="bem-testimonial__star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+      {% endfor %}
+    </div>
+    <blockquote class="bem-testimonial__quote">{{ quote }}</blockquote>
+    <div class="bem-testimonial__author">
+      {% if avatar %}
+        {{ renderAvatar(
+          src=avatar,
+          name=name,
+          class="bem-testimonial__avatar"
+        ) }}
+      {% endif %}
+      <div>
+        <cite class="bem-testimonial__name">{{ name }}</cite>
+        {% if role %}<span class="bem-testimonial__role">{{ role }}</span>{% endif %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/testimonials/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/testimonials/atoms.njk" import renderTestimonialQuote %}
+
+{% macro renderTestimonials(options={}) %}
+  {% set items = options.items or [] %}
+  {% set layout = options.layout or "grid" %}
+
+  {% if layout == "carousel" %}
+    <div x-data="{ current: 0 }" class="bem-testimonial__carousel">
+      <div class="overflow-hidden">
+        <div class="flex transition-transform duration-500"
+             :style="'transform: translateX(-' + (current * 100) + '%)'">
+          {% for item in items %}
+            <div class="w-full flex-shrink-0 px-2">
+              {{ renderTestimonialQuote(item.avatar, item.name, item.role, item.quote) }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if items.length > 1 %}
+        <div class="flex justify-center gap-2 mt-6">
+          {% for item in items %}
+            <button @click="current = {{ loop.index0 }}"
+                    class="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                    :class="current === {{ loop.index0 }} ? 'bg-secondary w-6' : 'bg-border hover:bg-secondary/40'"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="bem-testimonial__grid">
+      {% for item in items %}
+        {{ renderTestimonialQuote(item.avatar, item.name, item.role, item.quote) }}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/cta/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderCtaContent(title, variant="primary") %}
+  {% if variant == "muted" %}
+    <h2 class="bem-cta__muted-title">{{ title }}</h2>
+  {% else %}
+    <h2 class="bem-cta__title">{{ title }}</h2>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/cta/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/cta/atoms.njk" import renderCtaContent %}
+
+{% macro renderCta(options={}) %}
+  {% set variant = options.variant or "primary" %}
+  {% set align = options.align or "center" %}
+
+  <section class="bem-cta bem-cta--{{ variant }} {{ 'text-' + align }}">
+    {% if variant == "primary" or variant == "secondary" %}
+      <div class="bem-cta__decor"></div>
+      <div class="bem-cta__decor-2"></div>
+    {% endif %}
+
+    <div class="relative z-10 {{ 'flex flex-col items-' + align if align != 'center' else 'text-center flex flex-col items-center' }}">
+      {% if options.label %}
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-xs font-semibold uppercase tracking-widest mb-4">{{ options.label }}</span>
+      {% endif %}
+
+      {{ renderCtaContent(options.title, variant) }}
+
+      {% if options.subtitle %}
+        {% if variant == "muted" %}
+          <p class="bem-cta__muted-subtitle">{{ options.subtitle }}</p>
+        {% else %}
+          <p class="bem-cta__subtitle">{{ options.subtitle }}</p>
+        {% endif %}
+      {% endif %}
+
+      {% if options.buttons %}
+        <div class="bem-cta__actions {{ 'justify-' + align if align != 'center' else 'justify-center' }}">
+          {% for btn in options.buttons %}
+            <a href="{{ btn.url or '#' }}" class="bem-cta__btn--{{ btn.variant or 'primary' }}"
+               {% if btn.newTab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+              {{ btn.label }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/gallery/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderGalleryItem(image, caption="", alt="") %}
+  <div class="bem-gallery__item" x-data="{ open: false }"
+       @click="open = true" role="button" tabindex="0">
+    {{ renderImage(
+      src=image,
+      alt=alt or caption,
+      title=caption or alt,
+      class="bem-gallery__image",
+      loading="lazy"
+    ) }}
+    {% if caption %}
+      <div class="bem-gallery__caption">{{ caption }}</div>
+    {% endif %}
+
+    <!-- Lightbox -->
+    <template x-teleport="body">
+      <div x-show="open" x-cloak
+           class="bem-gallery__lightbox"
+           @click="open = false"
+           @keydown.escape.window="open = false">
+        <button @click="open = false" class="bem-gallery__close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-8 h-8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <img :src="$el.previousElementSibling.src || '{{ image }}'" class="bem-gallery__lightbox-image" @click.stop />
+      </div>
+    </template>
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/gallery/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/gallery/atoms.njk" import renderGalleryItem %}
+
+{% macro renderGallery(options={}) %}
+  {% set items = options.items or [] %}
+  {% set cols = options.cols or 4 %}
+  {% set colClass = {
+    2: "grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-3",
+    4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-gallery__grid {{ colClass[cols] or colClass[4] }}">
+    {% for item in items %}
+      {{ renderGalleryItem(item.image, item.caption, item.alt) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/features/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderFeatureIcon(icon) %}
+  {% if icon %}
+    <div class="bem-features__icon-wrap">
+      {% if icon starts with "<" %}
+        {{ icon | safe }}
+      {% else %}
+        {{ renderImage(
+          src=icon,
+          alt="",
+          class="bem-features__icon-img",
+          loading="lazy"
+        ) }}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderFeatureItem(feature) %}
+  <div class="bem-features__item">
+    {{ renderFeatureIcon(feature.icon) }}
+    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
+    {% if feature.description %}
+      <p class="bem-features__item-desc">{{ feature.description }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/features/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/features/atoms.njk" import renderFeatureItem %}
+
+{% macro renderFeatures(options={}) %}
+  {% set cols = options.cols or 3 %}
+  {% set colClass = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-features__grid {{ colClass[cols] or colClass[3] }}">
+    {% for item in options.items or [] %}
+      {{ renderFeatureItem(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/slider/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderSlideItem(slide, i, visibleCount) %}
+  <div :style="'width: ' + (100 / visibleCount) + '%'"
+       class="bem-slider__item">
+      
+      <a href="{{ slide.url }}" class="bem-slider__link" title="{{ slide.title }}">
+          <div class="bem-slider__bg {% if slide.type == 'text' %}bg-[#7a7042]{% else %}bg-black{% endif %}">
+              {% if slide.image %}
+                  {{ renderImage(
+                    src=slide.image,
+                    alt=slide.title,
+                    title=slide.title,
+                    class="bem-slider__bg-image",
+                    loading="lazy"
+                  ) }}
+              {% endif %}
+          </div>
+
+          <div class="bem-slider__overlay"></div>
+
+          <div class="bem-slider__content"
+               :class="visibleCount === 3 ? (currentIndex + 1 === {{ i }} ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none') : 'opacity-100'">
+              {% if slide.type == 'text' %}
+                  <div class="flex flex-col items-center">
+                      {% if slide.subtitle %}
+                          <span class="bem-slider__subtitle">{{ slide.subtitle }}</span>
+                      {% endif %}
+                      {% if slide.tagline %}
+                          <span class="bem-slider__tagline">{{ slide.tagline }}</span>
+                      {% endif %}
+                      <h2 class="bem-slider__title">{{ slide.title }}</h2>
+                      <div class="bem-slider__divider"></div>
+                  </div>
+              {% else %}
+                  <div class="mt-auto flex flex-col items-center">
+                      <h2 class="bem-slider__title-image">{{ slide.title }}</h2>
+                      {% if slide.description %}
+                          <p class="bem-slider__desc">{{ slide.description }}</p>
+                      {% endif %}
+                      <div class="bem-slider__more">
+                          <span class="bem-slider__more-text">Xem thêm</span>
+                      </div>
+                  </div>
+              {% endif %}
+          </div>
+
+          <div class="bem-slider__frame"></div>
+      </a>
+  </div>
+{% endmacro %}
+
+{% macro renderSliderNav() %}
+  <!-- Navigation Arrows -->
+  <button @click="prev()" 
+          class="bem-slider__arrow bem-slider__arrow--prev opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Previous slide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <button @click="next()" 
+          class="bem-slider__arrow bem-slider__arrow--next opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-label="Next slide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+{% endmacro %}
+
+{% macro renderSliderDots() %}
+  <!-- Pagination Dots -->
+  <div class="bem-slider__dots">
+      <template x-for="i in originalCount" :key="i">
+          <button @click="currentIndex = 3 + (i - 1)" 
+                  class="bem-slider__dot"
+                  :class="(currentIndex - 3 + originalCount) % originalCount === (i - 1) ? 'bg-[#D4AF37] w-8' : 'bg-white/30 w-4'"></button>
+      </template>
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/slider/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/slider/atoms.njk" import renderSlideItem, renderSliderNav, renderSliderDots %}
+
+{% macro renderSlider(items=[]) %}
+  {% set slides = items %}
+  {% set totalSlides = slides | length %}
+  
+  {% if totalSlides > 0 %}
+    <section class="bem-slider group" 
+        x-data='{ 
+            currentIndex: 3,
+            visibleCount: 1,
+            autoPlayInterval: null,
+            originalCount: {{ totalSlides }},
+            isTransitioning: false,
+            
+            init() {
+                this.updateVisibleCount();
+                window.addEventListener("resize", () => this.updateVisibleCount());
+                this.startAutoPlay();
+            },
+            updateVisibleCount() {
+                if (window.innerWidth >= 1024) {
+                    this.visibleCount = 3;
+                } else if (window.innerWidth >= 768) {
+                    this.visibleCount = 2;
+                } else {
+                    this.visibleCount = 1;
+                }
+            },
+            next() {
+                if (this.isTransitioning) return;
+                this.currentIndex++;
+                this.checkJump();
+            },
+            prev() {
+                if (this.isTransitioning) return;
+                this.currentIndex--;
+                this.checkJump();
+            },
+            checkJump() {
+                setTimeout(() => {
+                    if (this.currentIndex >= 3 + this.originalCount) {
+                        this.isTransitioning = true;
+                        this.currentIndex = 3;
+                        setTimeout(() => { this.isTransitioning = false }, 50);
+                    } else if (this.currentIndex < 3) {
+                        this.isTransitioning = true;
+                        this.currentIndex = 3 + this.originalCount - 1;
+                        setTimeout(() => { this.isTransitioning = false }, 50);
+                    }
+                }, 700);
+            },
+            startAutoPlay() {
+                this.autoPlayInterval = setInterval(() => {
+                    this.next();
+                }, 5000);
+            },
+            stopAutoPlay() {
+                clearInterval(this.autoPlayInterval);
+            }
+        }'
+        @mouseenter="stopAutoPlay()"
+        @mouseleave="startAutoPlay()">
+        
+        <div class="bem-slider__wrapper">
+            <!-- Slider Container -->
+            <div class="bem-slider__track"
+                 :class="isTransitioning ? 'transition-none' : 'transition-transform duration-700 ease-in-out'"
+                 :style="'transform: translateX(-' + (currentIndex * (100 / visibleCount)) + '%)'">
+                
+                {# Render clones and original slides. Loop from 0 to totalSlides + 5 #}
+                {% for i in range(0, totalSlides + 6) %}
+                    {% set slideIndex = (i - 3 + totalSlides * 2) % totalSlides %}
+                    {% set slide = slides[slideIndex] %}
+                    {{ renderSlideItem(slide, i, visibleCount) }}
+                {% endfor %}
+            </div>
+
+            {{ renderSliderNav() }}
+            {{ renderSliderDots() }}
+        </div>
+    </section>
+  {% endif %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/shared/atoms.njk #}
+{# ========================================== #}
+
+{#
+  ##############################################################################
+  Shared Atoms — dùng chung cho tất cả bricks
+  ##############################################################################
+
+  renderImage()
+  ------------
+  Render một thẻ <img> chuẩn với đầy đủ thuộc tính accessibility + performance.
+  
+  Cách dùng:
+    {% from "bricks/shared/atoms.njk" import renderImage %}
+
+    {{ renderImage(
+      src=item.image,
+      alt=item.title,
+      title=item.title,
+      class="bem-card__image"
+    ) }}
+
+  Nếu item có trường imageAlt / imageTitle riêng:
+    {{ renderImage(
+      src=item.image,
+      alt=item.imageAlt or item.title,
+      title=item.imageTitle or item.title,
+      class="bem-card__image"
+    ) }}
+
+  Đối với ảnh trang trí (decorative, icon):
+    {{ renderImage(src=item.icon, alt="", class="bem-features__icon-img") }}
+
+  Tất cả thuộc tính đều có giá trị mặc định hợp lý:
+    - loading="lazy"  (trừ header logo dùng "eager")
+    - decoding="async"
+    - alt=""          (mặc định rỗng — không bao giờ thiếu thuộc tính alt)
+    - title=""        (mặc định rỗng)
+#}
+
+{% macro renderImage(src, alt="", title="", class="", loading="lazy", decoding="async", width="", height="") %}
+  <img src="{{ src }}"
+   {% if alt %}alt="{{ alt }}"{% endif %}
+   {% if title %}title="{{ title }}"{% endif %}
+   class="{{ class }}"
+   loading="{{ loading }}"
+   decoding="{{ decoding }}"
+   {% if width %}width="{{ width }}"{% endif %}
+   {% if height %}height="{{ height }}"{% endif %} />
+{% endmacro %}
+
+
+{#
+  renderAvatar()
+  --------------
+  Render ảnh đại diện (avatar) với class mặc định và aria-label.
+#}
+{% macro renderAvatar(src, name="", class="", loading="lazy") %}
+  {{ renderImage(
+    src=src,
+    alt=name,
+    title=name,
+    class=class,
+    loading=loading
+  ) }}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/blog/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderBlogCard(post) %}
+  <article class="bem-blog__card group">
+    {% if post.image %}
+      <div class="bem-blog__image-wrap">
+        <a href="{{ post.url }}">
+          {{ renderImage(
+            src=post.image,
+            alt=post.title,
+            title=post.title,
+            class="bem-blog__image",
+            loading="lazy"
+          ) }}
+        </a>
+        {% if post.category %}
+          <span class="bem-blog__category">{{ post.category }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="bem-blog__body">
+      <div class="bem-blog__meta">
+        {% if post.date %}
+          <time class="bem-blog__date">{{ post.date }}</time>
+        {% endif %}
+        {% if post.author %}
+          <span class="bem-blog__author">{{ post.author }}</span>
+        {% endif %}
+      </div>
+
+      <h3 class="bem-blog__title">
+        <a href="{{ post.url }}" class="bem-blog__title-link">{{ post.title }}</a>
+      </h3>
+
+      {% if post.excerpt %}
+        <p class="bem-blog__excerpt">{{ post.excerpt }}</p>
+      {% endif %}
+
+      <a href="{{ post.url }}" class="bem-blog__read-more">Đọc thêm</a>
+    </div>
+  </article>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/blog/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/blog/atoms.njk" import renderBlogCard %}
+
+{% macro renderBlogPosts(options={}) %}
+  {% set items = options.items or [] %}
+  {% set cols = options.cols or 3 %}
+
+  {% set colClass = {
+    1: "grid-cols-1 max-w-lg mx-auto",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-blog__grid {{ colClass[cols] or colClass[3] }}">
+    {% for post in items %}
+      {{ renderBlogCard(post) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/faqs/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderFaqLabel(subtitle="Hỏi & Đáp") %}
+  {% set subtitleObj = subtitle | parseAttr %}
+  <span class="bem-faq__label {{ subtitleObj.classes }}{% if 'text-center' in subtitleObj.classes %} justify-center{% endif %}" {% if subtitleObj.id %}id="{{ subtitleObj.id }}"{% endif %}>
+    <span class="bem-faq__icon-label"></span> {{ subtitleObj.text }}
+  </span>
+{% endmacro %}
+
+{% macro renderFaqTitle(title="Câu hỏi thường gặp") %}
+  {% set titleObj = title | parseAttr %}
+  <h2 class="bem-faq__title {{ titleObj.classes }}" {% if titleObj.id %}id="{{ titleObj.id }}"{% endif %}>
+    {{ titleObj.text }}
+  </h2>
+{% endmacro %}
+
+{% macro renderFaqItem(question, answer) %}
+  <details class="bem-faq__item">
+    <summary class="bem-faq__summary">
+      <span>{{ question }}</span>
+      <span class="bem-faq__icon"></span>
+    </summary>
+    <div class="bem-faq__answer">
+      {{ answer | markdown | safe }}
+    </div>
+  </details>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/faqs/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/faqs/atoms.njk" import renderFaqLabel, renderFaqTitle, renderFaqItem %}
+
+{% macro renderFaqList(items) %}
+  <div class="bem-faq__list">
+    {% for item in items %}
+      {{ renderFaqItem(item.question, item.answer) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderFaqs(items, title="Câu hỏi thường gặp", subtitle="Hỏi & Đáp") %}
+  <section class="bem-faq">
+    <div class="bem-faq__card">
+      {{ renderFaqLabel(subtitle) }}
+      {{ renderFaqTitle(title) }}
+      {{ renderFaqList(items) }}
+    </div>
+  </section>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/steps/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderStepItem(step, index) %}
+  <div class="bem-steps__item">
+    <div class="bem-steps__marker">
+      <span class="bem-steps__number">{{ index }}</span>
+    </div>
+    <div class="bem-steps__content">
+      <h3 class="bem-steps__title">{{ step.title }}</h3>
+      {% if step.description %}
+        <p class="bem-steps__desc">{{ step.description }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/steps/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/steps/atoms.njk" import renderStepItem %}
+
+{% macro renderSteps(options={}) %}
+  {% set items = options.items or [] %}
+
+  <div class="bem-steps__list {{ 'mx-auto' if options.align == 'center' else '' }}">
+    {% for step in items %}
+      {{ renderStepItem(step, loop.index) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/team/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderAvatar %}
+
+{% macro renderTeamMember(member) %}
+  <div class="bem-team__card group">
+    <div class="bem-team__image-wrap">
+      {{ renderAvatar(
+        src=member.image,
+        name=member.name,
+        class="bem-team__image"
+      ) }}
+      {% if member.socials %}
+        <div class="bem-team__socials">
+          {% for social in member.socials %}
+            <a href="{{ social.url }}" class="bem-team__social-link" target="_blank" rel="noopener noreferrer"
+               aria-label="{{ social.platform }}">
+              {{ social.icon | safe }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="bem-team__info">
+      <h3 class="bem-team__name">{{ member.name }}</h3>
+      <span class="bem-team__role">{{ member.role }}</span>
+    </div>
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/team/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/team/atoms.njk" import renderTeamMember %}
+
+{% macro renderTeam(options={}) %}
+  {% set items = options.items or [] %}
+  <div class="bem-team__grid">
+    {% for member in items %}
+      {{ renderTeamMember(member) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/divider/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderDivider() %}
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/divider/molecules.njk #}
+{# ========================================== #}
+
+{% macro renderDivider(options={}) %}
+  {% set variant = options.variant or "solid" %}
+  {% set size = options.size or "md" %}
+  {% set color = options.color or "" %}
+
+  {% set sizeClass = {
+    "sm": "my-8",
+    "md": "my-12 md:my-16",
+    "lg": "my-20 md:my-24",
+    "xl": "my-28 md:my-36"
+  } %}
+
+  <div class="bem-divider bem-divider--{{ variant }} {{ sizeClass[size] or sizeClass['md'] }} {{ color }}">
+    {% if variant == "dots" %}
+      <div class="bem-divider__dots">
+        <span></span><span></span><span></span>
+      </div>
+    {% elif variant == "line-label" and options.label %}
+      <div class="bem-divider__line-label">
+        <span class="bem-divider__line"></span>
+        <span class="bem-divider__label">{{ options.label }}</span>
+        <span class="bem-divider__line"></span>
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/hero/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderHeroBadge(text, icon="") %}
+  <span class="bem-hero__badge">
+    {% if icon %}<span class="bem-hero__badge-icon">{{ icon | safe }}</span>{% endif %}
+    <span class="bem-hero__badge-text">{{ text }}</span>
+  </span>
+{% endmacro %}
+
+{% macro renderHeroTitle(title, subtitle="") %}
+  <h1 class="bem-hero__title">{{ title }}</h1>
+  {% if subtitle %}
+    <p class="bem-hero__subtitle">{{ subtitle }}</p>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderHeroCta(buttons=[]) %}
+  <div class="bem-hero__actions">
+    {% for btn in buttons %}
+      <a href="{{ btn.url or '#' }}" class="bem-hero__btn bem-hero__btn--{{ btn.variant or 'primary' }}"
+         {% if btn.newTab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+        {{ btn.label }}
+      </a>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro renderHeroOverlay() %}
+  <div class="bem-hero__overlay"></div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/hero/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+{% from "bricks/hero/atoms.njk" import renderHeroBadge, renderHeroTitle, renderHeroCta, renderHeroOverlay %}
+
+{% macro renderHero(options={}) %}
+  {% set bgImage = options.backgroundImage or "" %}
+  {% set bgColor = options.backgroundColor or "#1a1a2e" %}
+  {% set height = options.height or "min-h-[70vh]" %}
+  {% set align = options.align or "center" %}
+  {% set overlay = options.overlay != false %}
+  {% set bgAlt = options.backgroundAlt or "" %}
+  {% set bgTitle = options.backgroundTitle or "" %}
+
+  <section class="bem-hero {{ height }} relative flex items-center overflow-hidden"
+    {% if not bgImage %}style="background-color: {{ bgColor }};"{% endif %}>
+
+    {% if bgImage %}
+      {# Ảnh nền dạng <img> — SEO friendly, có thể index được #}
+      {{ renderImage(
+        src=bgImage,
+        alt=bgAlt,
+        title=bgTitle,
+        class="bem-hero__bg absolute inset-0 w-full h-full object-cover",
+        loading="eager"
+      ) }}
+      {% if overlay %}
+        {{ renderHeroOverlay() }}
+      {% endif %}
+    {% endif %}
+
+    <div class="bem-hero__container bem-hero__container--{{ align }}">
+      {% if options.badge %}
+        {{ renderHeroBadge(options.badge.text, options.badge.icon) }}
+      {% endif %}
+
+      {{ renderHeroTitle(options.title, options.subtitle) }}
+
+      {% if options.buttons %}
+        {{ renderHeroCta(options.buttons) }}
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/pricing/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderPricingBadge(text) %}
+  <span class="bem-pricing__badge">{{ text }}</span>
+{% endmacro %}
+
+{% macro renderPricingPrice(amount, currency="₫", period="") %}
+  <div class="bem-pricing__price-wrap">
+    <span class="bem-pricing__currency">{{ currency }}</span>
+    <span class="bem-pricing__amount">{{ amount }}</span>
+    {% if period %}
+      <span class="bem-pricing__period">{{ period }}</span>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro renderPricingFeature(text, included=true) %}
+  <li class="bem-pricing__feature bem-pricing__feature--{{ 'included' if included else 'excluded' }}">
+    <span class="bem-pricing__feature-icon">
+      {% if included %}
+        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+      {% else %}
+        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      {% endif %}
+    </span>
+    <span>{{ text }}</span>
+  </li>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/pricing/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/pricing/atoms.njk" import renderPricingBadge, renderPricingPrice, renderPricingFeature %}
+
+{% macro renderPricingPlan(plan={}) %}
+  <div class="bem-pricing__plan bem-pricing__plan--{{ plan.variant or 'default' }} relative">
+    {% if plan.badge %}{{ renderPricingBadge(plan.badge) }}{% endif %}
+
+    <h3 class="bem-pricing__plan-name">{{ plan.name }}</h3>
+    <p class="bem-pricing__plan-desc">{{ plan.description or "" }}</p>
+
+    {{ renderPricingPrice(plan.amount, plan.currency or "₫", plan.period) }}
+
+    <ul class="bem-pricing__features-list">
+      {% for feature in plan.features or [] %}
+        {{ renderPricingFeature(feature.text, feature.included != false) }}
+      {% endfor %}
+    </ul>
+
+    {% if plan.button %}
+      <a href="{{ plan.button.url or '#' }}" class="bem-pricing__btn bem-pricing__btn--{{ plan.button.variant or 'primary' }}">
+        {{ plan.button.label }}
+      </a>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro renderPricing(options={}) %}
+  {% set plans = options.plans or [] %}
+  {% set cols = plans.length %}
+  {% set colClass = {
+    1: "max-w-sm mx-auto",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+
+  <div class="bem-pricing__grid {{ colClass[cols] or colClass[3] }}">
+    {% for plan in plans %}
+      {{ renderPricingPlan(plan) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/header/atoms.njk #}
+{# ========================================== #}
+
+{% from "bricks/shared/atoms.njk" import renderImage %}
+
+{% macro renderLogo(type="image", text="MIỀN TỊNH THỔ", url="https://mientinhtho.com") %}
+  {% if type == "image" %}
+    <a href="{{ url }}" class="bem-logo-link">
+      {{ renderImage(
+        src="https://mientinhtho.com/wp-content/uploads/2025/08/logo.svg",
+        alt=text,
+        title=text,
+        class="bem-logo-img",
+        loading="eager"
+      ) }}
+    </a>
+  {% else %}
+    <a href="{{ url }}" class="bem-logo-text">{{ text }}</a>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderTrigger(iconType, eventName, customClass="") %}
+  <button @click="$dispatch('{{ eventName }}')" type="button" class="bem-icon-trigger {{ customClass }}">
+    {% if iconType == "menu" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+    {% elif iconType == "search" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[16px] h-[16px]">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5zM15.25 15.25L20 20" />
+      </svg>
+    {% elif iconType == "close" %}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    {% endif %}
+  </button>
+{% endmacro %}
+
+{% macro renderSearch(placeholder="Tìm kiếm...") %}
+<div class="relative w-full max-w-xs">
+  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+    <div class="i-heroicons-magnifying-glass w-5 h-5"></div>
+  </div>
+  <input class="bem-input" placeholder="{{ placeholder }}" type="search">
+</div>
+{% endmacro %}
+
+{% macro renderIconButton(iconClass, badgeCount=0) %}
+<button type="button" class="bem-btn-icon">
+  <div class="{{ iconClass }} w-6 h-6"></div>
+  {% if badgeCount > 0 %}
+    <span class="bem-badge">{{ badgeCount }}</span>
+  {% endif %}
+</button>
+{% endmacro %}
+
+{% macro renderAvatar(imgUrl, name="User") %}
+  {{ renderImage(
+    src=imgUrl,
+    alt=name,
+    title=name,
+    class="bem-avatar"
+  ) }}
+{% endmacro %}
+
+
+{# ========================================== #}
+{# SOURCE: bricks/header/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/header/atoms.njk" import renderIconButton, renderAvatar %}
+
+{% macro renderNavItem(item) %}
+  {% if item.children %}
+    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative group">
+      <div class="flex items-center">
+        <a href="{{ item.url }}" class="bem-nav-link">{{ item.label }}</a>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" class="w-[10px] h-[10px] ml-[8px] text-[#313131]/60 group-hover:text-[#025abc] transition-transform duration-200" :class="open ? 'rotate-180' : ''"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5" stroke="currentColor"></path></svg>
+      </div>
+      
+      <ul x-show="open" x-transition class="bem-dropdown-panel py-1" style="display: none;">
+        {# Caret triangle #}
+        <div class="absolute top-[-6px] left-[25px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-[#f3f3f3] pointer-events-none"></div>
+        {# Caret border #}
+        <div class="absolute top-[-7px] left-[24px] w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-b-[7px] border-b-[#e5e7eb] -z-10 pointer-events-none"></div>
+        {% for sub in item.children %}
+          <li><a href="{{ sub.url }}" class="bem-sub-link">{{ sub.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <a href="{{ item.url }}" class="bem-nav-link">{{ item.label }}</a>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderDropdown(label, items) %}
+<div x-data="{ open: false }" @click.away="open = false" class="relative inline-block text-left">
+  <button @click="open = !open" type="button" class="bem-nav-link flex items-center gap-1">
+    <span>{{ label }}</span>
+    <div class="i-heroicons-chevron-down w-4 h-4 transition" :class="open ? 'rotate-180' : ''"></div>
+  </button>
+
+  <div x-show="open" x-transition class="bem-dropdown-panel" style="display: none;">
+    {% for item in items %}
+      <a href="{{ item.url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">{{ item.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro renderMegaMenu(label, columns) %}
+<div x-data="{ open: false }" @click.away="open = false" class="relative">
+  <button @click="open = !open" class="bem-nav-link flex items-center gap-1">
+    <span>{{ label }}</span>
+    <div class="i-heroicons-chevron-down w-4 h-4" :class="open ? 'rotate-180' : ''"></div>
+  </button>
+
+  <div x-show="open" x-transition class="bem-megamenu-panel" style="display: none;">
+    <div class="bem-megamenu-box">
+      {% for col in columns %}
+        <div>
+          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">{{ col.title }}</h3>
+          <ul class="mt-4 space-y-2">
+            {% for link in col.links %}
+              <li><a href="{{ link.url }}" class="text-sm text-gray-900 hover:text-indigo-600 dark:text-gray-100">{{ link.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
+{# ========================================== #}
+{# SOURCE: bricks/stats/atoms.njk #}
+{# ========================================== #}
+
+{% macro renderStatItem(stat) %}
+  <div class="bem-stats__item" x-data="{ count: 0, target: {{ stat.value }}, unit: '{{ stat.unit or "" }}' }"
+       x-intersect="
+         let start = 0;
+         let duration = 2000;
+         let step = Math.ceil(target / (duration / 16));
+         let timer = setInterval(() => {
+           start += step;
+           if (start >= target) { start = target; clearInterval(timer); }
+           count = start;
+         }, 16);
+       ">
+    <span class="bem-stats__value"><span x-text="count.toLocaleString()">0</span>{{ stat.unit or "" }}</span>
+    {% if stat.label %}
+      <span class="bem-stats__label">{{ stat.label }}</span>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+
+{# ========================================== #}
+{# SOURCE: bricks/stats/molecules.njk #}
+{# ========================================== #}
+
+{% from "bricks/stats/atoms.njk" import renderStatItem %}
+
+{% macro renderStats(options={}) %}
+  {% set items = options.items or [] %}
+  <div class="bem-stats__grid">
+    {% for item in items %}
+      {{ renderStatItem(item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
