@@ -4,7 +4,6 @@
     "bem-video__embed": "relative aspect-video bg-foreground/5",
     "bem-video__thumbnail": "w-full h-full object-cover absolute inset-0",
     "bem-video__play-btn": "absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group cursor-pointer",
-    "bem-video__play-btn svg": "text-white/90 group-hover:text-secondary transition-colors drop-shadow-lg",
     "bem-video__iframe": "absolute inset-0 w-full h-full",
     "bem-video__file": "w-full h-auto rounded-2xl"
   }

@@ -1,5 +1,3 @@
-{% from "bricks/header/atoms.njk" import renderIconButton, renderAvatar %}
-
 {% macro renderNavItem(item) %}
   {% if item.children %}
     <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative group">

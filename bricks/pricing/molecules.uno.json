@@ -1,15 +1,10 @@
 {
   "shortcuts": {
     "bem-pricing__plan": "relative bg-white dark:bg-stone-900 rounded-2xl border border-border/30 p-6 lg:p-8 flex flex-col transition-all duration-300 hover:shadow-lg",
-    "bem-pricing__plan--featured": "border-secondary border-2 shadow-lg scale-105",
-    "bem-pricing__plan--default": "",
     "bem-pricing__plan-name": "text-xl font-display font-bold text-primary text-center",
     "bem-pricing__plan-desc": "text-sm text-foreground/50 text-center mt-2",
     "bem-pricing__features-list": "space-y-1 my-8 flex-1",
     "bem-pricing__btn": "inline-flex w-full items-center justify-center px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300",
-    "bem-pricing__btn--primary": "bg-primary text-primary-foreground hover:bg-primary/90",
-    "bem-pricing__btn--secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-    "bem-pricing__btn--outline": "border-2 border-border text-foreground hover:border-primary hover:text-primary",
     "bem-pricing__grid": "grid gap-6 lg:gap-8 items-start"
   }
 }

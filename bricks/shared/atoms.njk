@@ -35,6 +35,15 @@
     - title=""        (mặc định rỗng)
 #}
 
+
+
+
+{#
+  renderAvatar()
+  --------------
+  Render ảnh đại diện (avatar) với class mặc định và aria-label.
+#}
+
 {% macro renderImage(src, alt="", title="", class="", loading="lazy", decoding="async", width="", height="") %}
   <img src="{{ src }}"
    {% if alt %}alt="{{ alt }}"{% endif %}
@@ -46,18 +55,24 @@
    {% if height %}height="{{ height }}"{% endif %} />
 {% endmacro %}
 
+{% macro button(text="Click me", type="button", class="", variant="primary") %}
+  <button type="{{ type }}" class="btn btn-{{ variant }} {{ class }}">
+    {{ text }}
+  </button>
+{% endmacro %}
 
-{#
-  renderAvatar()
-  --------------
-  Render ảnh đại diện (avatar) với class mặc định và aria-label.
-#}
-{% macro renderAvatar(src, name="", class="", loading="lazy") %}
-  {{ renderImage(
-    src=src,
-    alt=name,
-    title=name,
-    class=class,
-    loading=loading
-  ) }}
+{% macro input(type="text", name="", placeholder="", value="", class="") %}
+  <input 
+    type="{{ type }}" 
+    name="{{ name }}" 
+    placeholder="{{ placeholder }}" 
+    value="{{ value }}" 
+    class="input-field {{ class }}"
+  >
+{% endmacro %}
+
+{% macro label(text, for="") %}
+  <label class="label" {% if for %}for="{{ for }}"{% endif %}>
+    {{ text }}
+  </label>
 {% endmacro %}

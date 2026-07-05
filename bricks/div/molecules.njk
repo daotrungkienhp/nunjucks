@@ -1,4 +1,4 @@
-{% from "bricks/div/atoms.njk" import renderDivOpen, renderDivClose, renderDivBox %}
+{% from "bricks/div/atoms.njk" import renderDivBox %}
 
 {% macro renderSection(content="", customClass="", id="", bgClass="") %}
   <section {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__section {{ bgClass }} {{ customClass }}">

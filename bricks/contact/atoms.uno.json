@@ -4,7 +4,6 @@
     "bem-contact__method-icon": "w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary flex-shrink-0",
     "bem-contact__method-title": "text-sm font-semibold text-foreground/50 uppercase tracking-wider mb-1",
     "bem-contact__method-content": "text-base text-primary font-medium hover:text-secondary transition-colors",
-    "bem-contact__social-link": "w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-foreground/50 hover:bg-secondary hover:text-white transition-all duration-200",
-    "bem-contact__grid": "grid gap-6 md:grid-cols-2 lg:gap-8"
+    "bem-contact__social-link": "w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-foreground/50 hover:bg-secondary hover:text-white transition-all duration-200"
   }
 }

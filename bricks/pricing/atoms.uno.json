@@ -6,10 +6,6 @@
     "bem-pricing__amount": "text-4xl md:text-5xl font-display font-bold text-primary",
     "bem-pricing__period": "text-sm text-foreground/50 ml-1",
     "bem-pricing__feature": "flex items-center gap-2.5 py-2.5 text-sm",
-    "bem-pricing__feature--included": "text-foreground/70",
-    "bem-pricing__feature--excluded": "text-foreground/30 line-through",
-    "bem-pricing__feature-icon": "flex-shrink-0",
-    "bem-pricing__feature--included .bem-pricing__feature-icon": "text-secondary",
-    "bem-pricing__feature--excluded .bem-pricing__feature-icon": "text-foreground/20"
+    "bem-pricing__feature-icon": "flex-shrink-0"
   }
 }

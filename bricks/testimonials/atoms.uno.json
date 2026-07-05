@@ -7,7 +7,6 @@
     "bem-testimonial__author": "flex items-center gap-3",
     "bem-testimonial__avatar": "w-10 h-10 rounded-full object-cover",
     "bem-testimonial__name": "block text-sm font-semibold text-primary not-italic",
-    "bem-testimonial__role": "block text-xs text-foreground/50 not-italic mt-0.5",
-    "bem-testimonial__grid": "grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+    "bem-testimonial__role": "block text-xs text-foreground/50 not-italic mt-0.5"
   }
 }

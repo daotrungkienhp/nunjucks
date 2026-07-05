@@ -2,7 +2,6 @@
   "shortcuts": {
     "bem-stats__item": "text-center p-6 lg:p-8",
     "bem-stats__value": "text-4xl md:text-5xl lg:text-6xl font-display font-bold text-primary block",
-    "bem-stats__label": "block text-sm text-foreground/50 mt-2 uppercase tracking-wider font-medium",
-    "bem-stats__grid": "grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12"
+    "bem-stats__label": "block text-sm text-foreground/50 mt-2 uppercase tracking-wider font-medium"
   }
 }

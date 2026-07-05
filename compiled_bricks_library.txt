@@ -336,14 +336,6 @@
 {# SOURCE: bricks/div/atoms.njk #}
 {# ========================================== #}
 
-{% macro renderDivOpen(customClass="", id="") %}
-  <div {% if id %}id="{{ id }}"{% endif %} class="bem-div {{ customClass }}">
-{% endmacro %}
-
-{% macro renderDivClose() %}
-  </div>
-{% endmacro %}
-
 {% macro renderDivBox(content="", customClass="", id="") %}
   <div {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__box {{ customClass }}">
     {{ content | markdown | safe }}
@@ -356,7 +348,7 @@
 {# SOURCE: bricks/div/molecules.njk #}
 {# ========================================== #}
 
-{% from "bricks/div/atoms.njk" import renderDivOpen, renderDivClose, renderDivBox %}
+{% from "bricks/div/atoms.njk" import renderDivBox %}
 
 {% macro renderSection(content="", customClass="", id="", bgClass="") %}
   <section {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__section {{ bgClass }} {{ customClass }}">
@@ -666,6 +658,16 @@
 
 {% from "bricks/shared/atoms.njk" import renderImage %}
 
+{% macro renderFeatureItem(feature) %}
+  <div class="bem-features__item">
+    {{ renderFeatureIcon(feature.icon) }}
+    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
+    {% if feature.description %}
+      <p class="bem-features__item-desc">{{ feature.description }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}
+
 {% macro renderFeatureIcon(icon) %}
   {% if icon %}
     <div class="bem-features__icon-wrap">
@@ -681,16 +683,6 @@
       {% endif %}
     </div>
   {% endif %}
-{% endmacro %}
-
-{% macro renderFeatureItem(feature) %}
-  <div class="bem-features__item">
-    {{ renderFeatureIcon(feature.icon) }}
-    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
-    {% if feature.description %}
-      <p class="bem-features__item-desc">{{ feature.description }}</p>
-    {% endif %}
-  </div>
 {% endmacro %}
 
 
@@ -934,6 +926,15 @@
     - title=""        (mặc định rỗng)
 #}
 
+
+
+
+{#
+  renderAvatar()
+  --------------
+  Render ảnh đại diện (avatar) với class mặc định và aria-label.
+#}
+
 {% macro renderImage(src, alt="", title="", class="", loading="lazy", decoding="async", width="", height="") %}
   <img src="{{ src }}"
    {% if alt %}alt="{{ alt }}"{% endif %}
@@ -945,22 +946,27 @@
    {% if height %}height="{{ height }}"{% endif %} />
 {% endmacro %}
 
-
-{#
-  renderAvatar()
-  --------------
-  Render ảnh đại diện (avatar) với class mặc định và aria-label.
-#}
-{% macro renderAvatar(src, name="", class="", loading="lazy") %}
-  {{ renderImage(
-    src=src,
-    alt=name,
-    title=name,
-    class=class,
-    loading=loading
-  ) }}
+{% macro button(text="Click me", type="button", class="", variant="primary") %}
+  <button type="{{ type }}" class="btn btn-{{ variant }} {{ class }}">
+    {{ text }}
+  </button>
 {% endmacro %}
 
+{% macro input(type="text", name="", placeholder="", value="", class="") %}
+  <input 
+    type="{{ type }}" 
+    name="{{ name }}" 
+    placeholder="{{ placeholder }}" 
+    value="{{ value }}" 
+    class="input-field {{ class }}"
+  >
+{% endmacro %}
+
+{% macro label(text, for="") %}
+  <label class="label" {% if for %}for="{{ for }}"{% endif %}>
+    {{ text }}
+  </label>
+{% endmacro %}
 
 
 {# ========================================== #}
@@ -1187,15 +1193,6 @@
 
 
 {# ========================================== #}
-{# SOURCE: bricks/divider/atoms.njk #}
-{# ========================================== #}
-
-{% macro renderDivider() %}
-{% endmacro %}
-
-
-
-{# ========================================== #}
 {# SOURCE: bricks/divider/molecules.njk #}
 {# ========================================== #}
 
@@ -1399,11 +1396,11 @@
 
 {% from "bricks/shared/atoms.njk" import renderImage %}
 
-{% macro renderLogo(type="image", text="MIỀN TỊNH THỔ", url="https://mientinhtho.com") %}
+{% macro renderLogo(type="image", text="MIỀN TỊNH THỔ", url="/") %}
   {% if type == "image" %}
     <a href="{{ url }}" class="bem-logo-link">
       {{ renderImage(
-        src="https://mientinhtho.com/wp-content/uploads/2025/08/logo.svg",
+        src="/assets/img/logo.svg",
         alt=text,
         title=text,
         class="bem-logo-img",
@@ -1433,39 +1430,11 @@
   </button>
 {% endmacro %}
 
-{% macro renderSearch(placeholder="Tìm kiếm...") %}
-<div class="relative w-full max-w-xs">
-  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-    <div class="i-heroicons-magnifying-glass w-5 h-5"></div>
-  </div>
-  <input class="bem-input" placeholder="{{ placeholder }}" type="search">
-</div>
-{% endmacro %}
-
-{% macro renderIconButton(iconClass, badgeCount=0) %}
-<button type="button" class="bem-btn-icon">
-  <div class="{{ iconClass }} w-6 h-6"></div>
-  {% if badgeCount > 0 %}
-    <span class="bem-badge">{{ badgeCount }}</span>
-  {% endif %}
-</button>
-{% endmacro %}
-
-{% macro renderAvatar(imgUrl, name="User") %}
-  {{ renderImage(
-    src=imgUrl,
-    alt=name,
-    title=name,
-    class="bem-avatar"
-  ) }}
-{% endmacro %}
 
 
 {# ========================================== #}
 {# SOURCE: bricks/header/molecules.njk #}
 {# ========================================== #}
-
-{% from "bricks/header/atoms.njk" import renderIconButton, renderAvatar %}
 
 {% macro renderNavItem(item) %}
   {% if item.children %}
@@ -1528,6 +1497,7 @@
   </div>
 </div>
 {% endmacro %}
+
 
 
 {# ========================================== #}

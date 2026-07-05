@@ -1,11 +1,3 @@
-{% macro renderDivOpen(customClass="", id="") %}
-  <div {% if id %}id="{{ id }}"{% endif %} class="bem-div {{ customClass }}">
-{% endmacro %}
-
-{% macro renderDivClose() %}
-  </div>
-{% endmacro %}
-
 {% macro renderDivBox(content="", customClass="", id="") %}
   <div {% if id %}id="{{ id }}"{% endif %} class="bem-div bem-div__box {{ customClass }}">
     {{ content | markdown | safe }}

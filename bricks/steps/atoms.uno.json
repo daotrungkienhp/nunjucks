@@ -1,12 +1,10 @@
 {
   "shortcuts": {
     "bem-steps__item": "flex gap-6 relative pb-12 last:pb-0",
-    "bem-steps__item::before": "absolute left-[23px] top-12 bottom-0 w-px bg-border/40 last:hidden",
     "bem-steps__marker": "relative z-10 flex-shrink-0",
     "bem-steps__number": "w-12 h-12 rounded-full bg-secondary/10 border-2 border-secondary text-secondary font-bold flex items-center justify-center text-sm",
     "bem-steps__content": "pt-2 flex-1",
     "bem-steps__title": "text-lg font-display font-semibold text-primary mb-2",
-    "bem-steps__desc": "text-sm text-foreground/60 leading-relaxed",
-    "bem-steps__list": "max-w-2xl"
+    "bem-steps__desc": "text-sm text-foreground/60 leading-relaxed"
   }
 }

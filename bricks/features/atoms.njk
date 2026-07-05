@@ -1,5 +1,15 @@
 {% from "bricks/shared/atoms.njk" import renderImage %}
 
+{% macro renderFeatureItem(feature) %}
+  <div class="bem-features__item">
+    {{ renderFeatureIcon(feature.icon) }}
+    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
+    {% if feature.description %}
+      <p class="bem-features__item-desc">{{ feature.description }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}
+
 {% macro renderFeatureIcon(icon) %}
   {% if icon %}
     <div class="bem-features__icon-wrap">
@@ -15,14 +25,4 @@
       {% endif %}
     </div>
   {% endif %}
-{% endmacro %}
-
-{% macro renderFeatureItem(feature) %}
-  <div class="bem-features__item">
-    {{ renderFeatureIcon(feature.icon) }}
-    <h3 class="bem-features__item-title">{{ feature.title }}</h3>
-    {% if feature.description %}
-      <p class="bem-features__item-desc">{{ feature.description }}</p>
-    {% endif %}
-  </div>
 {% endmacro %}

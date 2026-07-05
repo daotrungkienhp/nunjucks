@@ -11,7 +11,6 @@
     "bem-blog__title": "text-lg font-display font-semibold leading-snug",
     "bem-blog__title-link": "text-primary hover:text-secondary transition-colors duration-200",
     "bem-blog__excerpt": "text-sm text-foreground/60 leading-relaxed line-clamp-3",
-    "bem-blog__read-more": "inline-flex items-center text-sm font-medium text-secondary hover:text-primary transition-colors duration-200",
-    "bem-blog__grid": "grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+    "bem-blog__read-more": "inline-flex items-center text-sm font-medium text-secondary hover:text-primary transition-colors duration-200"
   }
 }
