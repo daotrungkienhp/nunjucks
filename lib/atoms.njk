@@ -1,0 +1,81 @@
+{# 
+  atoms.njk - Thư viện nguyên tử tổng hợp 
+  Hỗ trợ cú pháp: "Nội dung { #id .class }" qua filter parseAttr
+#}
+
+{# 1. Typography & Text #}
+{% macro renderHeading(content, level=2, baseClass="bem-heading") %}
+  {% set obj = content | parseAttr %}
+  <h{{ level }} class="{{ baseClass }} {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+    {{ obj.text | safe }}
+  </h{{ level }}>
+{% endmacro %}
+
+{% macro renderRichText(content, baseClass="bem-text") %}
+  {% set obj = content | parseAttr %}
+  <div class="{{ baseClass }} {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+    {{ obj.text | markdown | safe }}
+  </div>
+{% endmacro %}
+
+{% macro renderBadge(content, baseClass="bem-badge") %}
+  {% set obj = content | parseAttr %}
+  <span class="{{ baseClass }} {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+    {{ obj.text }}
+  </span>
+{% endmacro %}
+
+{# 2. Media (Kế thừa từ shared/atoms.njk) [11] #}
+{% macro renderImage(src, alt="", title="", class="", loading="lazy", decoding="async", width="", height="") %}
+  <img src="{{ src }}"
+    {% if alt %}alt="{{ alt }}"{% endif %}
+    {% if title %}title="{{ title }}"{% endif %}
+    class="{{ class }}"
+    loading="{{ loading }}"
+    decoding="{{ decoding }}"
+    {% if width %}width="{{ width }}"{% endif %}
+    {% if height %}height="{{ height }}"{% endif %} />
+{% endmacro %}
+
+{# 3. Form & Inputs (Bổ sung theo yêu cầu) #}
+{% macro renderInput(name, type="text", placeholder="", content="") %}
+  {% set obj = content | parseAttr %}
+  <div class="bem-input-group {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+    <input 
+      type="{{ type }}" 
+      name="{{ name }}" 
+      placeholder="{{ obj.text or placeholder }}" 
+      class="bem-input"
+    >
+  </div>
+{% endmacro %}
+
+{% macro renderTextarea(name, rows=4, content="") %}
+  {% set obj = content | parseAttr %}
+  <textarea 
+    name="{{ name }}" 
+    rows="{{ rows }}" 
+    class="bem-textarea {{ obj.classes }}" 
+    {% if obj.id %}id="{{ obj.id }}"{% endif %}
+    placeholder="{{ obj.text }}">
+  </textarea>
+{% endmacro %}
+
+{# 4. Actions #}
+{% macro renderButton(content, url="", type="button", baseClass="bem-btn") %}
+  {% set obj = content | parseAttr %}
+  {% if url %}
+    <a href="{{ url }}" class="{{ baseClass }} {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+      {{ obj.text | safe }}
+    </a>
+  {% else %}
+    <button type="{{ type }}" class="{{ baseClass }} {{ obj.classes }}" {% if obj.id %}id="{{ obj.id }}"{% endif %}>
+      {{ obj.text | safe }}
+    </button>
+  {% endif %}
+{% endmacro %}
+
+{# 5. Icons #}
+{% macro renderIcon(name, class="") %}
+  <i class="bem-icon {{ name }} {{ class }}" aria-hidden="true"></i>
+{% endmacro %}

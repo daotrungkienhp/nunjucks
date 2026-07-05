@@ -1,0 +1,116 @@
+{# 
+  molecules.njk - Thư viện Phân tử (Molecules) 
+  Lắp ghép từ atoms.njk và hỗ trợ layout linh hoạt 
+#}
+
+{% from "atoms.njk" import 
+  renderImage, renderHeading, renderText, 
+  renderLink, renderButton, renderInput, renderIcon 
+%}
+
+{# 1. Form Field: Kết hợp Label + Input/Textarea #}
+{% macro renderFormField(label, name, type="text", placeholder="", content="") %}
+  <div class="bem-field">
+    {{ renderText(content=label, tag="label", baseClass="bem-field__label") }}
+    {% if type == "textarea" %}
+      {{ renderTextarea(name=name, content=content) }}
+    {% else %}
+      {{ renderInput(name=name, type=type, content=content, placeholder=placeholder) }}
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# 2. Card Phức tạp: Dùng cho Blog, Features, Team [4-6] #}
+{% macro renderCard(item={}, class="") %}
+  <article class="bem-card {{ class }} group">
+    {% if item.image %}
+      <div class="bem-card__media">
+        {{ renderImage(src=item.image, alt=item.title, class="bem-card__image") }}
+        {% if item.badge %}
+          <span class="bem-card__badge">{{ item.badge }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="bem-card__body">
+      {% if item.subtitle %}
+        {{ renderText(content=item.subtitle, tag="span", baseClass="bem-card__subtitle") }}
+      {% endif %}
+      
+      {{ renderHeading(content=item.title, level=3, baseClass="bem-card__title") }}
+      
+      {% if item.description %}
+        {{ renderText(content=item.description, baseClass="bem-card__desc") }}
+      {% endif %}
+
+      {# Cho phép chèn thêm nội dung (ví dụ: Meta data) qua caller() [3] #}
+      {% if caller %}{{ caller() }}{% endif %}
+
+      {% if item.url %}
+        {{ renderLink(content=item.linkText or "Xem thêm", url=item.url, baseClass="bem-card__link") }}
+      {% endif %}
+    </div>
+  </article>
+{% endmacro %}
+
+{# 3. Hero Section: Thành phần đầu trang [7, 8] #}
+{% macro renderHero(options={}) %}
+  <section class="bem-hero {{ options.height or 'min-h-[70vh]' }} relative flex items-center">
+    {% if options.backgroundImage %}
+      {{ renderImage(src=options.backgroundImage, class="absolute inset-0 w-full h-full object-cover -z-10", loading="eager") }}
+      <div class="bem-hero__overlay"></div>
+    {% endif %}
+
+    <div class="bem-hero__container {{ 'items-' + (options.align or 'center') }}">
+      {% if options.badge %}
+        {{ renderText(content=options.badge, baseClass="bem-hero__badge") }}
+      {% endif %}
+      
+      {{ renderHeading(content=options.title, level=1, baseClass="bem-hero__title") }}
+      {{ renderText(content=options.subtitle, baseClass="bem-hero__subtitle") }}
+
+      {% if options.buttons %}
+        <div class="bem-hero__actions">
+          {% for btn in options.buttons %}
+            {{ renderButton(content=btn.label, url=btn.url, baseClass="bem-btn--" + (btn.variant or "primary")) }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endmacro %}
+
+{# 4. Section Wrapper: Container dùng chung cho mọi Layout [9, 10] #}
+{% macro renderSection(options={}) %}
+  <section class="bem-section {{ options.bgClass }} {{ options.padding or 'py-16' }}" {% if options.id %}id="{{ options.id }}"{% endif %}>
+    <div class="bem-section__container">
+      {% if options.title or options.subtitle %}
+        <div class="bem-section__header {{ 'text-' + (options.align or 'center') }}">
+          {{ renderText(content=options.subtitle, tag="span", baseClass="bem-section__label") }}
+          {{ renderHeading(content=options.title, level=2, baseClass="bem-section__title") }}
+        </div>
+      {% endif %}
+      
+      {# Chèn nội dung bất kỳ của Section vào đây #}
+      <div class="bem-section__content">
+        {{ caller() | safe }}
+      </div>
+    </div>
+  </section>
+{% endmacro %}
+
+{# 5. Grid Molecule: Tự động chia cột linh hoạt [11, 12] #}
+{% macro renderGrid(items=[], cols=3, moleculeName="renderCard") %}
+  {% set colClass = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  } %}
+  <div class="grid {{ colClass[cols] or colClass[13] }} gap-6">
+    {% for item in items %}
+      {# Gọi động các phân tử con [14, 15] #}
+      {{ _self[moleculeName](item) }}
+    {% endfor %}
+  </div>
+{% endmacro %}
