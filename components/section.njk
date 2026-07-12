@@ -1,0 +1,32 @@
+  {% from "components/canhoCard.njk" import bancanho %}
+
+{% set listings = readJson("./database/bancanho.json") %}
+{% if listings %}
+
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <span class="w-2.5 h-6 bg-emerald-600 rounded-full inline-block"></span>
+                Bán căn hộ chung cư
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">Cập nhật liên tục bởi chính chủ căn hộ tại các tòa V1 - V8</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <a href="/ban-can-ho/">  <span class="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-emerald-100 transition">Xem thêm</span> </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+       
+            {% for item in listings %}
+                {{ bancanho(item) }}
+            {% endfor %}
+    </div>
+
+    
+
+</section>
+ {% endif %}
